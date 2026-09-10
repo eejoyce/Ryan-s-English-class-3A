@@ -1,0 +1,2338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aenet · 小朋友英语学习舱</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/npm/baloo-2@1.0.4/fonts/baloo2.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/baloo-2/1.0.4/fonts/baloo2.css" rel="stylesheet">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap">
+<style>
+:root{
+  --bg:#EAF4FF; --bg-2:#FFF7E6;
+  --card:#FFFFFF; --card-soft:#F4FAFF;
+  --ink:#274C77; --ink-2:#5F7D9C; --ink-3:#93ACBF;
+  --blue:#3E8EDE; --blue-d:#2C66B0; --blue-bg:#E3F1FF;
+  --sun:#FFC145; --sun-d:#EFA838; --sun-bg:#FFF3D6;
+  --coral:#FF7A59; --coral-d:#E55B3C; --coral-bg:#FFE9E2;
+  --green:#2FC97F; --green-d:#17A564; --green-bg:#DFF7EB;
+  --red:#F2665E; --red-bg:#FDE7E5;
+  --r-lg:24px; --r-md:18px; --r-sm:12px;
+  --line:rgba(39,76,119,.10);
+  --sh-card:0 4px 0 rgba(39,76,119,.06), 0 12px 28px rgba(39,76,119,.10);
+  --sh-btn:0 5px 0 var(--btn-d, #2C66B0);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{font-size:16px}
+body{
+  font-family:"Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  background:var(--bg); color:var(--ink); line-height:1.6;
+  min-height:100vh; overflow-x:hidden;
+}
+body::before{
+  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:
+    radial-gradient(520px 340px at 88% -6%, rgba(255,193,69,.32), transparent 60%),
+    radial-gradient(460px 320px at -6% 4%, rgba(62,142,222,.18), transparent 60%),
+    radial-gradient(560px 400px at 50% 110%, rgba(47,201,127,.14), transparent 60%),
+    var(--bg);
+}
+.en{font-family:"Baloo 2", "Comic Sans MS", "Segoe Print", cursive}
+button{font-family:inherit; border:none; cursor:pointer; color:inherit; background:none}
+input,textarea{font-family:inherit; color:inherit}
+svg{display:block}
+.hidden{display:none!important}
+
+/* ============ 顶栏 ============ */
+.topbar{
+  position:sticky; top:0; z-index:40;
+  display:flex; align-items:center; gap:12px;
+  padding:12px 20px; max-width:960px; margin:0 auto;
+}
+.logo{display:flex; align-items:center; gap:10px; user-select:none}
+.logo-mark{
+  width:44px; height:44px; border-radius:14px; flex:none;
+  background:linear-gradient(135deg,#FFC145,#FF9A3D);
+  box-shadow:0 4px 0 rgba(224,150,58,.35);
+  display:flex; align-items:center; justify-content:center;
+}
+.logo-name{font-size:26px; font-weight:700; line-height:1; letter-spacing:.5px}
+.logo-name b{color:var(--blue)}
+.topbar .spacer{flex:1}
+.top-chip{
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--card); border-radius:999px; padding:7px 14px;
+  font-weight:700; font-size:14px; box-shadow:var(--sh-card);
+}
+.top-chip .star{color:var(--sun-d); width:18px; height:18px}
+.icon-btn{
+  width:42px; height:42px; border-radius:14px; background:var(--card);
+  box-shadow:var(--sh-card); display:flex; align-items:center; justify-content:center;
+  color:var(--ink-2); transition:transform .12s;
+}
+.icon-btn:hover{transform:translateY(-1px); color:var(--coral)}
+.icon-btn:active{transform:translateY(1px)}
+
+/* ============ 主视图 ============ */
+main{max-width:960px; margin:0 auto; padding:8px 20px 120px}
+.view-head{margin:6px 2px 18px}
+.view-title{font-size:30px; font-weight:900; letter-spacing:.5px}
+.view-sub{color:var(--ink-2); font-size:15px; margin-top:4px}
+
+/* ============ 卡片 ============ */
+.card{
+  background:var(--card); border-radius:var(--r-lg); padding:22px;
+  box-shadow:var(--sh-card);
+}
+.card + .card{margin-top:16px}
+.card-title{font-size:18px; font-weight:900; display:flex; align-items:center; gap:8px; margin-bottom:14px}
+.card-title .ic{color:var(--blue)}
+
+/* ============ 按钮 ============ */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  min-height:52px; padding:0 22px; border-radius:16px;
+  font-size:16px; font-weight:900; color:#fff;
+  background:var(--blue); --btn-d:var(--blue-d);
+  box-shadow:var(--sh-btn); transform:translateY(-2px);
+  transition:transform .1s, box-shadow .1s;
+}
+.btn:hover{filter:brightness(1.05)}
+.btn:active{transform:translateY(2px); box-shadow:0 1px 0 var(--btn-d)}
+.btn:disabled{opacity:.45; cursor:not-allowed; transform:none; box-shadow:0 5px 0 rgba(128,146,163,.35)}
+.btn.coral{background:var(--coral); --btn-d:var(--coral-d)}
+.btn.sun{background:var(--sun); --btn-d:var(--sun-d); color:#7A5410}
+.btn.green{background:var(--green); --btn-d:var(--green-d)}
+.btn.ghost{
+  background:var(--card-soft); color:var(--blue); box-shadow:none; border:2px solid var(--line);
+  transform:none;
+}
+.btn.ghost:active{transform:translateY(1px)}
+.btn.sm{min-height:42px; padding:0 16px; font-size:14px; border-radius:13px}
+.btn.block{width:100%}
+
+/* ============ Chip 选择器 ============ */
+.chip{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:10px 16px; border-radius:999px; border:2px solid var(--line);
+  background:var(--card); font-weight:700; font-size:14px; color:var(--ink-2);
+  transition:all .15s; user-select:none;
+}
+.chip:hover{border-color:var(--blue); color:var(--blue)}
+.chip.on{
+  background:var(--blue-bg); border-color:var(--blue); color:var(--blue);
+}
+.chip.coral.on{background:var(--coral-bg); border-color:var(--coral); color:var(--coral-d)}
+.chip.green.on{background:var(--green-bg); border-color:var(--green); color:var(--green-d)}
+.chip.sun.on{background:var(--sun-bg); border-color:var(--sun); color:#8A6312}
+.chip .ck{width:16px; height:16px; display:none}
+.chip.on .ck{display:block}
+.chip-row{display:flex; flex-wrap:wrap; gap:10px}
+
+/* ============ 首页 ============ */
+.hero{
+  border-radius:32px; padding:28px 26px; position:relative; overflow:hidden;
+  background:linear-gradient(135deg,#3E8EDE 0%, #4FA8F2 55%, #6FC0FF 100%);
+  color:#fff; box-shadow:0 10px 30px rgba(62,142,222,.35);
+}
+.hero .badge svg{width:15px;height:15px}
+.hero .badge{
+  display:inline-flex; align-items:center; gap:6px;
+  background:rgba(255,255,255,.18); border-radius:999px; padding:5px 12px;
+  font-size:13px; font-weight:700;
+}
+.hero h1{font-size:36px; font-weight:900; line-height:1.2; margin:12px 0 6px}
+.hero p{font-size:15px; opacity:.94; max-width:520px}
+.hero .steps{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:16px;
+}
+.hero .step{
+  background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.22);
+  border-radius:18px; padding:12px 10px; text-align:center;
+}
+.hero .step .n{
+  width:28px; height:28px; border-radius:10px; background:#fff; color:var(--blue);
+  font-weight:900; display:flex; align-items:center; justify-content:center; margin:0 auto 6px;
+}
+.hero .step .t{font-size:13.5px; font-weight:900}
+.hero .step .d{font-size:11.5px; opacity:.9; margin-top:2px}
+.stat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:14px}
+.stat-card{
+  background:var(--card); border-radius:var(--r-lg); padding:14px 12px;
+  box-shadow:var(--sh-card); text-align:center;
+}
+.stat-card .num{font-size:27px; font-weight:900; line-height:1.1}
+.stat-card .lab{font-size:12.5px; color:var(--ink-2); font-weight:700; margin-top:2px}
+.stat-card .ic{width:24px; height:24px; margin:0 auto 5px}
+.quick-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px}
+.quick{
+  border-radius:var(--r-lg); padding:18px; text-align:left; color:#fff;
+  box-shadow:var(--sh-btn); transform:translateY(-2px);
+  transition:transform .12s; position:relative; overflow:hidden;
+}
+.quick:active{transform:translateY(2px); box-shadow:none}
+.quick .q-t{font-size:18px; font-weight:900; display:flex; align-items:center; gap:8px}
+.quick .q-d{font-size:13px; opacity:.92; margin-top:4px}
+.quick .q-ic{position:absolute; right:14px; bottom:10px; width:56px; height:56px; opacity:.25}
+.q-blue{background:linear-gradient(135deg,#3E8EDE,#5AAEF5)}
+.q-coral{background:linear-gradient(135deg,#FF7A59,#FF9A70)}
+.q-sun{background:linear-gradient(135deg,#FFC145,#FF9A3D)}
+.q-green{background:linear-gradient(135deg,#2FC97F,#58DDA0)}
+.workflow{margin-top:16px}
+.flow-item{display:flex; gap:16px; padding:16px 0; border-bottom:1px dashed var(--line)}
+.flow-item:last-child{border-bottom:none}
+.flow-item .f-n{
+  flex:none; width:38px; height:38px; border-radius:13px;
+  background:var(--blue-bg); color:var(--blue); font-weight:900; font-size:17px;
+  display:flex; align-items:center; justify-content:center;
+}
+.flow-item .f-t{font-weight:900; font-size:16px}
+.flow-item .f-d{font-size:14px; color:var(--ink-2); margin-top:2px}
+
+/* ============ 单元 / 课程 ============ */
+.unit-card{
+  display:flex; align-items:center; gap:16px;
+  background:var(--card); border-radius:var(--r-lg); padding:18px 20px;
+  box-shadow:var(--sh-card); cursor:pointer; transition:transform .12s;
+  border-left:8px solid var(--uc, var(--blue));
+}
+.unit-card:hover{transform:translateY(-2px)}
+.unit-card .u-no{font-size:13px; font-weight:900; color:var(--uc, var(--blue))}
+.unit-card .u-t{font-size:19px; font-weight:900; line-height:1.2}
+.unit-card .u-meta{font-size:13px; color:var(--ink-2); margin-top:2px}
+.unit-card .u-prog{flex:1}
+.prog-dots{display:flex; gap:5px; margin-top:6px}
+.prog-dots i{width:14px; height:14px; border-radius:50%; background:var(--line); display:block}
+.prog-dots i.on{background:var(--green)}
+.prog-dots i.half{background:var(--sun)}
+.word-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px}
+.word-card{
+  background:var(--card); border-radius:var(--r-md); padding:14px 16px;
+  box-shadow:var(--sh-card); display:flex; align-items:center; gap:12px;
+}
+.word-card .wc-main{flex:1; min-width:0}
+.word-card .wc-en{font-size:21px; font-weight:700; line-height:1.15; word-break:break-word}
+.word-card .wc-ipa{font-size:13px; color:var(--ink-2); font-family:Consolas, monospace}
+.word-card .wc-zh{font-size:14px; font-weight:700; color:var(--ink-2); margin-top:2px}
+.word-card .wc-tag{
+  font-size:11px; font-weight:900; padding:2px 8px; border-radius:999px;
+  background:var(--sun-bg); color:#8A6312; margin-left:6px; vertical-align:2px;
+}
+.mini-btn{
+  width:36px; height:36px; border-radius:12px; flex:none;
+  background:var(--card-soft); display:flex; align-items:center; justify-content:center;
+  color:var(--blue); transition:transform .1s;
+}
+.mini-btn:hover{transform:scale(1.08)}
+.mini-btn.coral{color:var(--coral)}
+.master-chip{
+  font-size:11px; font-weight:900; padding:3px 9px; border-radius:999px; flex:none;
+  background:var(--ink-3); color:#fff;
+}
+.master-chip.on{background:var(--green)}
+.master-chip.run{background:var(--sun-d); color:#fff}
+.master-chip.learn{background:var(--coral); color:#fff}
+.dlg-card{background:var(--card); border-radius:var(--r-lg); padding:20px; box-shadow:var(--sh-card)}
+.dlg-title{font-size:18px; font-weight:900; display:flex; align-items:center; gap:8px; margin-bottom:4px}
+.dlg-sub{font-size:13px; color:var(--ink-2); margin-bottom:14px}
+.dlg-line{
+  display:grid; grid-template-columns:56px 1fr; gap:10px; padding:12px 0;
+  border-bottom:1px dashed var(--line); align-items:start;
+}
+.dlg-line:last-child{border-bottom:none}
+.dlg-line .who{
+  background:var(--blue-bg); color:var(--blue); font-weight:900; font-size:13px;
+  border-radius:10px; padding:4px 0; text-align:center;
+}
+.dlg-line .en-txt{font-size:17px; font-weight:700}
+.dlg-line .ipa-txt{font-size:12px; color:var(--ink-2); font-family:Consolas,monospace; margin-top:1px}
+.dlg-line .zh-txt{font-size:14px; color:var(--ink-2); margin-top:2px}
+.dlg-line .play{float:right}
+
+/* ============ 导入 ============ */
+.import-area{
+  border:3px dashed var(--blue); border-radius:var(--r-lg);
+  background:var(--blue-bg); padding:22px; cursor:pointer;
+  transition:background .15s;
+}
+.import-area.drag{background:#D5EAFF}
+.import-area .ia-t{font-weight:900; font-size:16px; display:flex; align-items:center; gap:8px; justify-content:center}
+.import-area .ia-d{font-size:13px; color:var(--ink-2); text-align:center; margin-top:4px}
+textarea.parse-src{
+  width:100%; min-height:220px; border:2px solid var(--line); border-radius:var(--r-md);
+  padding:14px; font-size:14px; line-height:1.7; resize:vertical; background:var(--card);
+  outline:none; transition:border .15s;
+}
+textarea.parse-src:focus{border-color:var(--blue)}
+.preview-block{background:var(--card-soft); border-radius:var(--r-md); padding:14px 16px; margin-top:10px}
+.preview-block .pb-t{font-weight:900; font-size:14px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center}
+.preview-unit{border-top:1px dashed var(--line); padding:10px 0}
+.preview-unit .pu-t{font-weight:900; color:var(--blue)}
+.preview-unit .pu-m{font-size:13px; color:var(--ink-2)}
+
+/* ============ 考试配置 ============ */
+.exam-sec{margin-bottom:22px}
+.exam-sec .sec-lab{font-weight:900; font-size:15px; margin-bottom:10px; display:flex; align-items:center; gap:8px}
+.exam-sec .sec-lab .tip{font-weight:500; font-size:12px; color:var(--ink-3); margin-left:auto}
+.diff-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+.diff-card{
+  border-radius:var(--r-md); padding:16px; text-align:center; cursor:pointer;
+  background:var(--card); border:3px solid var(--line); transition:all .15s;
+}
+.diff-card:hover{border-color:var(--blue)}
+.diff-card.on{border-color:var(--blue); background:var(--blue-bg)}
+.diff-card .d-n{font-size:22px; font-weight:900}
+.diff-card .d-l{font-size:13px; font-weight:700; margin-top:2px}
+.diff-card .d-s{font-size:12px; color:var(--ink-2); margin-top:4px}
+.rule-note{
+  display:flex; gap:10px; align-items:flex-start;
+  background:var(--sun-bg); border-radius:var(--r-md); padding:14px 16px;
+  font-size:13px; color:#7A5410; margin-top:14px;
+}
+.rule-note svg{flex:none; margin-top:2px}
+
+/* ============ 考试进行 ============ */
+.quiz-shell{
+  position:fixed; inset:0; z-index:60; background:var(--bg);
+  display:flex; flex-direction:column; overflow-y:auto;
+}
+.quiz-top{
+  position:sticky; top:0; z-index:5; background:rgba(234,244,255,.92);
+  backdrop-filter:blur(6px); padding:14px 20px 10px;
+}
+.quiz-top .qt-row{display:flex; align-items:center; gap:14px; max-width:720px; margin:0 auto}
+.quiz-progress{flex:1; height:14px; background:#D5E6F7; border-radius:999px; overflow:hidden}
+.quiz-progress i{display:block; height:100%; background:linear-gradient(90deg,#3E8EDE,#6FC0FF); border-radius:999px; transition:width .3s}
+.quiz-score{font-weight:900; font-size:15px; display:flex; align-items:center; gap:4px}
+.quiz-score .star{color:var(--sun-d); width:18px; height:18px}
+.quiz-body{flex:1; max-width:720px; margin:0 auto; width:100%; padding:24px 20px 40px}
+.q-card{
+  background:var(--card); border-radius:var(--r-lg); padding:28px 24px;
+  box-shadow:var(--sh-card);
+}
+.q-tag{display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:900;
+  padding:4px 12px; border-radius:999px; background:var(--coral-bg); color:var(--coral-d)}
+.q-tag.blue{background:var(--blue-bg); color:var(--blue)}
+.q-tag.green{background:var(--green-bg); color:var(--green-d)}
+.q-tag.sun{background:var(--sun-bg); color:#8A6312}
+.q-prompt{margin-top:16px; text-align:center}
+.q-prompt .big-en{font-size:40px; font-weight:700; line-height:1.25; word-break:break-word}
+.q-prompt .big-zh{font-size:24px; font-weight:900; margin-top:10px; color:var(--ink)}
+.q-prompt .ipa{font-size:15px; color:var(--ink-2); font-family:Consolas,monospace; margin-top:6px}
+.q-prompt .hint{font-size:14px; color:var(--ink-2); margin-top:12px}
+.opt-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:22px}
+.opt{
+  min-height:64px; border-radius:var(--r-md); border:2px solid var(--line);
+  background:var(--card); padding:12px 14px; font-size:16px; font-weight:700;
+  display:flex; align-items:center; gap:10px; text-align:left; transition:all .12s;
+}
+.opt:hover{border-color:var(--blue); background:var(--blue-bg)}
+.opt .o-key{
+  flex:none; width:30px; height:30px; border-radius:10px; background:var(--card-soft);
+  color:var(--blue); font-weight:900; display:flex; align-items:center; justify-content:center; font-size:13px;
+}
+.opt.correct{border-color:var(--green); background:var(--green-bg)}
+.opt.correct .o-key{background:var(--green); color:#fff}
+.opt.wrong{border-color:var(--red); background:var(--red-bg)}
+.opt.wrong .o-key{background:var(--red); color:#fff}
+.opt:disabled{cursor:default; opacity:1}
+.type-row{display:flex; gap:12px; margin-top:22px}
+.type-row input{
+  flex:1; min-height:56px; border-radius:16px; border:2px solid var(--line);
+  padding:0 18px; font-size:19px; font-weight:700; outline:none; background:var(--card);
+}
+.type-row input:focus{border-color:var(--blue)}
+.speak-area{margin-top:22px; text-align:center}
+.mic-btn{
+  width:112px; height:112px; border-radius:50%; margin:0 auto;
+  background:linear-gradient(135deg,#FF7A59,#FF9A70); color:#fff;
+  box-shadow:0 6px 0 var(--coral-d); display:flex; align-items:center; justify-content:center;
+  transition:transform .1s; position:relative;
+}
+.mic-btn:active{transform:scale(.96)}
+.mic-btn.listening{animation:pulse 1.2s infinite}
+.mic-btn svg{width:46px;height:46px}
+.quick .q-ic svg{width:52px;height:52px}
+.fb-banner .fb-ic svg{width:24px;height:24px}
+.stat-card .ic svg{width:26px;height:26px}
+@keyframes pulse{
+  0%{box-shadow:0 6px 0 var(--coral-d), 0 0 0 0 rgba(255,122,89,.45)}
+  70%{box-shadow:0 6px 0 var(--coral-d), 0 0 0 26px rgba(255,122,89,0)}
+  100%{box-shadow:0 6px 0 var(--coral-d), 0 0 0 0 rgba(255,122,89,0)}
+}
+.asr-line{margin-top:14px; min-height:26px; font-size:16px; font-weight:700; color:var(--ink-2)}
+.self-check{display:flex; gap:10px; justify-content:center; margin-top:12px}
+.hw-area{margin-top:18px; text-align:center}
+.hw-canvas-wrap{position:relative; display:inline-block}
+.hw-canvas-wrap canvas{
+  background:#fff; border:3px dashed var(--blue); border-radius:var(--r-md);
+  touch-action:none; max-width:100%;
+}
+.hw-guide{
+  position:absolute; left:0; right:0; bottom:18px; text-align:center;
+  font-size:12px; color:var(--ink-3); pointer-events:none; letter-spacing:.5px;
+}
+.fb-banner{
+  border-radius:var(--r-md); padding:16px 18px; margin-top:20px;
+  display:flex; gap:14px; align-items:center;
+}
+.fb-banner.good{background:var(--green-bg)}
+.fb-banner.bad{background:var(--red-bg)}
+.fb-banner .fb-ic{flex:none; width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff}
+.fb-banner.good .fb-ic{background:var(--green)}
+.fb-banner.bad .fb-ic{background:var(--red)}
+.fb-banner .fb-t{font-weight:900; font-size:17px}
+.fb-banner .fb-d{font-size:13.5px; color:var(--ink-2); margin-top:2px}
+.fb-banner .fb-d b{color:var(--ink)}
+.quiz-next{margin-top:22px; display:flex; justify-content:center}
+
+/* ============ 结果 ============ */
+.result-hero{text-align:center; padding:30px 24px}
+.score-ring{
+  width:150px; height:150px; border-radius:50%; margin:10px auto 16px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  background:var(--sun-bg); border:6px solid var(--sun);
+}
+.score-ring .s-num{font-size:44px; font-weight:900; line-height:1}
+.score-ring .s-lab{font-size:13px; font-weight:700; color:#8A6312}
+.stars-row{display:flex; gap:8px; justify-content:center; margin:6px 0 4px}
+.stars-row svg{width:34px; height:34px}
+.stars-row svg.off{opacity:.2}
+.res-msg{font-size:18px; font-weight:900}
+.review-item{display:flex; gap:12px; padding:13px 0; border-bottom:1px dashed var(--line); align-items:flex-start}
+.review-item:last-child{border-bottom:none}
+.review-item .r-ic{flex:none; width:30px; height:30px; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff}
+.review-item .r-ic.ok{background:var(--green)}
+.review-item .r-ic.no{background:var(--red)}
+.review-item .r-t{font-weight:900; font-size:15px; word-break:break-word}
+.review-item .r-d{font-size:13px; color:var(--ink-2); margin-top:1px}
+.review-item .r-ans{font-size:13px; margin-top:2px; font-weight:700; color:var(--green-d)}
+.review-item .r-wrong{font-size:13px; margin-top:1px; font-weight:700; color:var(--red)}
+
+/* ============ 错题本 ============ */
+.wb-sum{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+.wb-item{display:flex; align-items:center; gap:14px; padding:14px 0; border-bottom:1px dashed var(--line)}
+.wb-item:last-child{border-bottom:none}
+.wb-item .wi-main{flex:1; min-width:0}
+.wb-item .wi-en{font-size:18px; font-weight:700}
+.wb-item .wi-zh{font-size:13px; color:var(--ink-2)}
+.wb-item .wi-ipa{font-size:12px; color:var(--ink-3); font-family:Consolas,monospace}
+.wb-prog{flex:none; display:flex; gap:5px; align-items:center}
+.wb-prog i{width:12px; height:12px; border-radius:50%; background:var(--line)}
+.wb-prog i.on{background:var(--green)}
+.empty{
+  text-align:center; padding:44px 20px; color:var(--ink-2);
+}
+.empty .e-ic{width:64px; height:64px; margin:0 auto 12px; opacity:.4}
+
+/* ============ 帮助 ============ */
+.help-sec{margin-bottom:16px}
+.help-sec h3{font-size:17px; font-weight:900; display:flex; align-items:center; gap:8px; margin-bottom:8px}
+.help-sec p, .help-sec li{font-size:14px; color:var(--ink-2)}
+.help-sec ul{padding-left:20px}
+.help-sec li{margin-top:4px}
+.help-sec code{
+  background:var(--card-soft); border-radius:6px; padding:1px 7px;
+  font-family:Consolas,monospace; font-size:13px; color:var(--blue-d);
+}
+
+/* ============ 底部导航 ============ */
+.tabbar{
+  position:fixed; bottom:0; left:0; right:0; z-index:50;
+  background:#FFFFFF;
+  border-top:1px solid var(--line);
+  display:flex; justify-content:space-around; padding:6px 6px calc(8px + env(safe-area-inset-bottom));
+  box-shadow:0 -6px 20px rgba(39,76,119,.06);
+}
+.tab{
+  flex:1; max-width:130px; display:flex; flex-direction:column; align-items:center; gap:2px;
+  padding:6px 0 2px; border-radius:14px; color:var(--ink-3); font-size:11px; font-weight:700;
+  transition:color .15s;
+}
+.tab svg{width:24px; height:24px}
+.tab.on{color:var(--blue)}
+.tab.on .tab-pill{background:var(--blue-bg)}
+.tab .tab-pill{padding:3px 14px; border-radius:999px}
+.tab-badge{
+  position:absolute; transform:translate(14px,-4px);
+  background:var(--coral); color:#fff; font-size:10px; font-weight:900;
+  min-width:17px; height:17px; border-radius:999px; display:flex; align-items:center; justify-content:center;
+}
+
+/* ============ Toast / Modal ============ */
+#toast{
+  position:fixed; left:50%; bottom:96px; transform:translateX(-50%) translateY(20px);
+  background:var(--ink); color:#fff; padding:12px 20px; border-radius:999px;
+  font-size:14px; font-weight:700; z-index:100; opacity:0; pointer-events:none;
+  transition:all .25s; max-width:86vw; text-align:center; box-shadow:0 8px 24px rgba(0,0,0,.18);
+}
+#toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+.modal-mask{
+  position:fixed; inset:0; z-index:80; background:rgba(24,48,74,.45);
+  display:flex; align-items:center; justify-content:center; padding:20px;
+}
+.modal{
+  background:var(--card); border-radius:var(--r-lg); padding:24px; width:100%; max-width:440px;
+  box-shadow:0 24px 60px rgba(0,0,0,.25); max-height:86vh; overflow-y:auto;
+}
+.modal h3{font-size:19px; font-weight:900; margin-bottom:12px}
+.modal p{font-size:14px; color:var(--ink-2); margin-bottom:12px}
+.modal .m-row{display:flex; gap:10px; margin-top:18px}
+.modal .m-row .btn{flex:1}
+.field{margin-bottom:12px}
+.field label{display:block; font-size:13px; font-weight:900; color:var(--ink-2); margin-bottom:6px}
+.field input{
+  width:100%; min-height:46px; border-radius:13px; border:2px solid var(--line);
+  padding:0 14px; font-size:15px; outline:none; background:var(--card);
+}
+.field input:focus{border-color:var(--blue)}
+
+/* ============ 响应式 ============ */
+@media (max-width:640px){
+  .hero{padding:22px 18px}
+  .hero h1{font-size:28px}
+  .hero p{font-size:14px}
+  .hero .steps{grid-template-columns:repeat(2,1fr); gap:8px; margin-top:16px}
+  .hero .step{padding:10px 8px}
+  .hero .step .n{width:26px;height:26px;margin-bottom:6px}
+  .stat-grid{grid-template-columns:repeat(2,1fr)}
+  .quick-grid{grid-template-columns:1fr}
+  .diff-grid{grid-template-columns:1fr}
+  .opt-grid{grid-template-columns:1fr}
+  .type-row{flex-direction:column}
+  .type-row .btn{width:100%}
+  .dlg-line{grid-template-columns:44px 1fr}
+  .view-title{font-size:26px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important; transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo" onclick="go('#/home')" title="回到首页">
+    <div class="logo-mark">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.4M12 19v2.4M2.6 12H5M19 12h2.4M5.3 5.3l1.7 1.7M17 17l1.7 1.7M18.7 5.3 17 7M7 17l-1.7 1.7"/></svg>
+    </div>
+    <div class="logo-name en">Ae<b>net</b></div>
+  </div>
+  <div class="spacer"></div>
+  <div class="top-chip"><svg class="star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4l-5.8 3.1 1.1-6.5L2.6 9.4l6.5-.9z"/></svg><span id="topStars">0</span></div>
+  <button class="icon-btn" id="btnReset" title="重置全部数据">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+  </button>
+</header>
+
+<main id="view"></main>
+
+<nav class="tabbar" id="tabbar">
+  <button class="tab" data-route="#/home">
+    <span class="tab-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg></span>
+    <span>首页</span>
+  </button>
+  <button class="tab" data-route="#/course">
+    <span class="tab-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4a2 2 0 0 0-2-2H6.5A2.5 2.5 0 0 0 4 4.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg></span>
+    <span>课程</span>
+  </button>
+  <button class="tab" data-route="#/exam">
+    <span class="tab-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M3.5 6l1 1 2-2M3.5 12l1 1 2-2M3.5 18l1 1 2-2"/></svg></span>
+    <span>考试</span>
+  </button>
+  <button class="tab" data-route="#/wrongbook">
+    <span class="tab-pill" style="position:relative"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4l-5.8 3.1 1.1-6.5L2.6 9.4l6.5-.9z"/></svg><span class="tab-badge hidden" id="wbBadge">0</span></span>
+    <span>错题本</span>
+  </button>
+  <button class="tab" data-route="#/help">
+    <span class="tab-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.2 9a2.9 2.9 0 0 1 5.6 1c0 2-2.8 2.4-2.8 4.2"/><circle cx="12" cy="17.4" r=".6" fill="currentColor"/></svg></span>
+    <span>说明</span>
+  </button>
+</nav>
+
+<div id="toast"></div>
+<div id="modalRoot"></div>
+
+<script>
+"use strict";
+/* ================= 工具 ================= */
+const $ = (s, el) => (el || document).querySelector(s);
+const $$ = (s, el) => Array.from((el || document).querySelectorAll(s));
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid = () => "u" + Math.random().toString(36).slice(2, 9);
+const shuffle = a => { const r = a.slice(); for (let i = r.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [r[i], r[j]] = [r[j], r[i]]; } return r; };
+const sample = (a, n) => shuffle(a).slice(0, n);
+const normWord = s => String(s || "").toLowerCase().trim().replace(/[^a-z0-9' \-]/g, "").replace(/\s+/g, " ").trim();
+const editDist = (a, b) => {
+  if (!a.length) return b.length; if (!b.length) return a.length;
+  const m = Array.from({ length: a.length + 1 }, (_, i) => [i]);
+  for (let j = 1; j <= b.length; j++) m[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++)
+    m[i][j] = Math.min(m[i - 1][j] + 1, m[i][j - 1] + 1, m[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return m[a.length][b.length];
+};
+const fuzzyMatch = (input, target) => {
+  const a = normWord(input), b = normWord(target);
+  if (!a) return false;
+  if (a === b) return true;
+  if (a.includes(b) || b.includes(a)) return true;
+  const words = a.split(" ");
+  for (const w of words) if (editDist(w, b) <= Math.max(1, Math.floor(b.length / 4))) return true;
+  return false;
+};
+let toastTimer = null;
+function toast(msg) {
+  const t = $("#toast");
+  t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
+}
+function modal(html) {
+  $("#modalRoot").innerHTML = `<div class="modal-mask" onclick="if(event.target===this)closeModal()"><div class="modal">${html}</div></div>`;
+}
+function closeModal() { $("#modalRoot").innerHTML = ""; }
+
+/* ================= 音标词典（内置常用词，导入时自动补音标） ================= */
+const IPA_DICT = {
+  hello:"/həˈləʊ/", hi:"/haɪ/", goodbye:"/ˌɡʊdˈbaɪ/", bye:"/baɪ/", morning:"/ˈmɔːnɪŋ/",
+  afternoon:"/ˌɑːftəˈnuːn/", evening:"/ˈiːvnɪŋ/", name:"/neɪm/", my:"/maɪ/", your:"/jɔː(r)/",
+  please:"/pliːz/", "thank you":"/ˈθæŋk juː/", thanks:"/θæŋks/", sorry:"/ˈsɒri/", good:"/ɡʊd/",
+  meet:"/miːt/", nice:"/naɪs/", too:"/tuː/", what:"/wɒt/", is:"/ɪz/", how:"/haʊ/", are:"/ɑː(r)/",
+  you:"/juː/", i:"/aɪ/", am:"/æm/", red:"/red/", blue:"/bluː/", green:"/ɡriːn/", yellow:"/ˈjeləʊ/",
+  orange:"/ˈɒrɪndʒ/", purple:"/ˈpɜːpl/", pink:"/pɪŋk/", black:"/blæk/", white:"/waɪt/",
+  brown:"/braʊn/", like:"/laɪk/", color:"/ˈkʌlə(r)/", it:"/ɪt/", do:"/duː/", yes:"/jes/", no:"/nəʊ/",
+  very:"/ˈveri/", pretty:"/ˈprɪti/", one:"/wʌn/", two:"/tuː/", three:"/θriː/", four:"/fɔː(r)/",
+  five:"/faɪv/", six:"/sɪks/", seven:"/ˈsevn/", eight:"/eɪt/", nine:"/naɪn/", ten:"/ten/",
+  count:"/kaʊnt/", number:"/ˈnʌmbə(r)/", many:"/ˈmeni/", old:"/əʊld/", cat:"/kæt/", dog:"/dɒɡ/",
+  book:"/bʊk/", pen:"/pen/", bag:"/bæɡ/", hat:"/hæt/", big:"/bɪɡ/", small:"/smɔːl/",
+  happy:"/ˈhæpi/", sad:"/sæd/", jump:"/dʒʌmp/", run:"/rʌn/", walk:"/wɔːk/", eat:"/iːt/",
+  drink:"/drɪŋk/", milk:"/mɪlk/", water:"/ˈwɔːtə(r)/", apple:"/ˈæpl/", banana:"/bəˈnɑːnə/",
+  cake:"/keɪk/", egg:"/eɡ/", fish:"/fɪʃ/", rice:"/raɪs/", boy:"/bɔɪ/", girl:"/ɡɜːl/",
+  mother:"/ˈmʌðə(r)/", father:"/ˈfɑːðə(r)/", sister:"/ˈsɪstə(r)/", brother:"/ˈbrʌðə(r)/",
+  family:"/ˈfæməli/", friend:"/frend/", school:"/skuːl/", teacher:"/ˈtiːtʃə(r)/",
+  student:"/ˈstjuːdnt/", home:"/həʊm/", play:"/pleɪ/", sing:"/sɪŋ/", dance:"/dɑːns/",
+  draw:"/drɔː/", read:"/riːd/", write:"/raɪt/", listen:"/ˈlɪsn/", look:"/lʊk/", see:"/siː/",
+  want:"/wɒnt/", have:"/hæv/", has:"/hæz/", can:"/kæn/", help:"/help/", thank:"/θæŋk/",
+  how:"/haʊ/", and:"/ænd/", the:"/ðə/", a:"/ə/", of:"/əv/", in:"/ɪn/", on:"/ɒn/", to:"/tuː/",
+  at:"/æt/", with:"/wɪð/", for:"/fɔː(r)/", from:"/frɒm/", up:"/ʌp/", down:"/daʊn/", go:"/ɡəʊ/",
+  come:"/kʌm/", sit:"/sɪt/", stand:"/stænd/", open:"/ˈəʊpən/", close:"/kləʊz/", new:"/njuː/",
+  sun:"/sʌn/", moon:"/muːn/", star:"/stɑː(r)/", sky:"/skaɪ/", tree:"/triː/", flower:"/ˈflaʊə(r)/",
+  bird:"/bɜːd/", pig:"/pɪɡ/", cow:"/kaʊ/", duck:"/dʌk/", lion:"/ˈlaɪən/", tiger:"/ˈtaɪɡə(r)/",
+  monkey:"/ˈmʌŋki/", panda:"/ˈpændə/", zoo:"/zuː/", park:"/pɑːk/", room:"/ruːm/", door:"/dɔː(r)/",
+  window:"/ˈwɪndəʊ/", chair:"/tʃeə(r)/", table:"/ˈteɪbl/", bed:"/bed/", toy:"/tɔɪ/", ball:"/bɔːl/",
+  kite:"/kaɪt/", car:"/kɑː(r)/", bus:"/bʌs/", bike:"/baɪk/", shoes:"/ʃuːz/", shirt:"/ʃɜːt/",
+  dress:"/dres/", socks:"/sɒks/", hat:"/hæt/", hand:"/hænd/", foot:"/fʊt/", head:"/hed/",
+  eye:"/aɪ/", ear:"/ɪə(r)/", nose:"/nəʊz/", mouth:"/maʊθ/", face:"/feɪs/", hair:"/heə(r)/",
+  arm:"/ɑːm/", leg:"/leɡ/", body:"/ˈbɒdi/", cold:"/kəʊld/", hot:"/hɒt/", warm:"/wɔːm/",
+  rain:"/reɪn/", snow:"/snəʊ/", wind:"/wɪnd/", cloud:"/klaʊd/", day:"/deɪ/", night:"/naɪt/",
+  week:"/wiːk/", today:"/təˈdeɪ/", tomorrow:"/təˈmɒrəʊ/", yesterday:"/ˈjestədeɪ/",
+  breakfast:"/ˈbrekfəst/", lunch:"/lʌntʃ/", dinner:"/ˈdɪnə(r)/", soup:"/suːp/", meat:"/miːt/",
+  chicken:"/ˈtʃɪkɪn/", bread:"/bred/", juice:"/dʒuːs/", tea:"/tiː/", coffee:"/ˈkɒfi/",
+  run:"/rʌn/", swim:"/swɪm/", fly:"/flaɪ/", sleep:"/sliːp/", wake:"/weɪk/", wash:"/wɒʃ/",
+  clean:"/kliːn/", dirty:"/ˈdɜːti/", fast:"/fɑːst/", slow:"/sləʊ/", tall:"/tɔːl/", short:"/ʃɔːt/",
+  long:"/lɒŋ/", fat:"/fæt/", thin:"/θɪn/", good:"/ɡʊd/", bad:"/bæd/", right:"/raɪt/", wrong:"/rɒŋ/",
+  welcome:"/ˈwelkəm/", be:"/biː/", stand:"/stænd/", "stand up":"/ˌstænd ˈʌp/", sit:"/sɪt/", "sit down":"/ˌsɪt ˈdaʊn/",
+  point:"/pɔɪnt/", say:"/seɪ/", they:"/ðeɪ/", everyone:"/ˈevriwʌn/", she:"/ʃiː/", we:"/wiː/", twin:"/twɪn/",
+  he:"/hiː/", together:"/təˈɡeðə(r)/", ok:"/ˌəʊˈkeɪ/", song:"/sɒŋ/", dear:"/dɪə(r)/", know:"/nəʊ/",
+  our:"/ˈaʊə(r)/", everybody:"/ˈevribɒdi/", me:"/miː/", thing:"/θɪŋ/", pack:"/pæk/", pencil:"/ˈpensl/",
+  "pencil case":"/ˈpensl keɪs/", ruler:"/ˈruːlə(r)/", eraser:"/ɪˈreɪzə(r)/", schoolbag:"/ˈskuːlbæɡ/",
+  guess:"/ɡes/", find:"/faɪnd/", kid:"/kɪd/", there:"/ðeə(r)/", back:"/bæk/", colourful:"/ˈkʌləfl/",
+  world:"/wɜːld/", hooray:"/hʊˈreɪ/", umbrella:"/ʌmˈbrelə/", clothes:"/kləʊðz/", rainbow:"/ˈreɪnbəʊ/",
+  balloon:"/bəˈluːn/", first:"/fɜːst/", magical:"/ˈmædʒɪkl/", fun:"/fʌn/", picture:"/ˈpɪktʃə(r)/",
+  paint:"/peɪnt/", rope:"/rəʊp/", who:"/huː/", make:"/meɪk/", beautiful:"/ˈbjuːtɪfl/", only:"/ˈəʊnli/",
+  show:"/ʃəʊ/", baby:"/ˈbeɪbi/", cheep:"/tʃiːp/", hungry:"/ˈhʌŋɡri/", around:"/əˈraʊnd/", all:"/ɔːl/",
+  dad:"/dæd/", father:"/ˈfɑːðə(r)/", grandfather:"/ˈɡrænfɑːðə(r)/", grandmother:"/ˈɡrænmʌðə(r)/",
+  but:"/bʌt/", people:"/ˈpiːpl/", story:"/ˈstɔːri/", worry:"/ˈwʌri/", photo:"/ˈfəʊtəʊ/", daddy:"/ˈdædi/",
+  mummy:"/ˈmʌmi/", where:"/weə(r)/", sweet:"/swiːt/", game:"/ɡeɪm/", "living room":"/ˈlɪvɪŋ ruːm/",
+  bedroom:"/ˈbedruːm/", bathroom:"/ˈbɑːθruːm/", kitchen:"/ˈkɪtʃɪn/", "dining room":"/ˈdaɪnɪŋ ruːm/",
+  think:"/θɪŋk/", under:"/ˈʌndə(r)/", miaow:"/miˈaʊ/", their:"/ðeə(r)/", share:"/ʃeə(r)/", put:"/pʊt/",
+  cooking:"/ˈkʊkɪŋ/", lucky:"/ˈlʌki/", little:"/ˈlɪtl/", everywhere:"/ˈevriweə(r)/",
+  "here you are":"/hɪə juː ɑː(r)/", "come back":"/ˌkʌm ˈbæk/", "look at":"/ˈlʊk æt/",
+  "take care of":"/ˌteɪk ˈkeə əv/", "lost and found":"/ˌlɒst ənd ˈfaʊnd/", "come on":"/ˌkʌm ˈɒn/",
+  "all around":"/ˌɔːl əˈraʊnd/", "chinese knot":"/ˌtʃaɪˈniːz ˈnɒt/", eleven:"/ɪˈlevn/", twelve:"/twelv/",
+  "let's":"/lets/", colour:"/ˈkʌlə(r)/", hmm:"/hm/", how:"/haʊ/", what:"/wɒt/", its:"/ɪts/",
+  cant:"/kɑːnt/", dont:"/dəʊnt/", youre:"/jɔː(r)/", hes:"/hiːz/", shes:"/ʃiːz/", were:"/wɪə(r)/",
+  im:"/aɪm/", whats:"/wɒts/", wheres:"/weəz/", whos:"/huːz/", isnt:"/ˈɪznt/", thats:"/ðæts/"
+};
+function autoIpa(en){
+  const k = normWord(en);
+  if (IPA_DICT[k]) return IPA_DICT[k];
+  const words = k.split(" ").map(w => IPA_DICT[w]).filter(Boolean);
+  if (words.length && words.length === k.split(" ").length) return words.join(" ");
+  return "";
+}
+function autoLineIpa(en){
+  const k = normWord(en);
+  if (IPA_DICT[k]) return IPA_DICT[k];
+  const words = k.split(" ").map(w => IPA_DICT[w]).filter(Boolean);
+  return words.length ? words.join(" ") : "";
+}
+
+/* ================= 示例课程 ================= */
+const UNIT_COLORS = ["#3E8EDE", "#FF9A3D", "#2FC97F", "#F2665E", "#9B7BF5", "#0FA3A3"];
+const SAMPLE_COURSE = {
+  id: "sample-" + Date.now(),
+  title: "小学英语启蒙（示例课程）",
+  source: "内置示例",
+  units: [
+    { id:"u1", title:"Unit 1 · 问候 Greetings", zh:"打招呼、自我介绍",
+      words:[
+        {en:"hello", zh:"你好", ipa:"/həˈləʊ/"},
+        {en:"hi", zh:"嗨，你好", ipa:"/haɪ/"},
+        {en:"goodbye", zh:"再见", ipa:"/ˌɡʊdˈbaɪ/"},
+        {en:"morning", zh:"早晨，上午", ipa:"/ˈmɔːnɪŋ/"},
+        {en:"afternoon", zh:"下午", ipa:"/ˌɑːftəˈnuːn/"},
+        {en:"evening", zh:"晚上", ipa:"/ˈiːvnɪŋ/"},
+        {en:"name", zh:"名字", ipa:"/neɪm/"},
+        {en:"my", zh:"我的", ipa:"/maɪ/"},
+        {en:"your", zh:"你的", ipa:"/jɔː(r)/"},
+        {en:"please", zh:"请", ipa:"/pliːz/"},
+        {en:"thank you", zh:"谢谢你", ipa:"/ˈθæŋk juː/", phrase:true},
+        {en:"sorry", zh:"对不起", ipa:"/ˈsɒri/"}
+      ],
+      dialogues:[
+        { id:"d1", title:"校园早晨问候", zh:"在校园里见到同学和老师",
+          lines:[
+            {who:"Anna", en:"Good morning!", zh:"早上好！", ipa:"/ˌɡʊd ˈmɔːnɪŋ/"},
+            {who:"Ben", en:"Good morning, Anna!", zh:"早上好，安娜！", ipa:"/ˌɡʊd ˈmɔːnɪŋ ˈænə/"},
+            {who:"Anna", en:"What's your name?", zh:"你叫什么名字？", ipa:"/wɒts jɔː neɪm/"},
+            {who:"Ben", en:"My name is Ben.", zh:"我叫本。", ipa:"/maɪ neɪm ɪz ben/"},
+            {who:"Anna", en:"Nice to meet you!", zh:"很高兴认识你！", ipa:"/naɪs tə miːt juː/"},
+            {who:"Ben", en:"Nice to meet you, too!", zh:"我也很高兴认识你！", ipa:"/naɪs tə miːt juː tuː/"}
+          ]}
+      ]},
+    { id:"u2", title:"Unit 2 · 颜色 Colors", zh:"认识颜色、表达喜好",
+      words:[
+        {en:"red", zh:"红色", ipa:"/red/"},
+        {en:"blue", zh:"蓝色", ipa:"/bluː/"},
+        {en:"green", zh:"绿色", ipa:"/ɡriːn/"},
+        {en:"yellow", zh:"黄色", ipa:"/ˈjeləʊ/"},
+        {en:"orange", zh:"橙色", ipa:"/ˈɒrɪndʒ/"},
+        {en:"purple", zh:"紫色", ipa:"/ˈpɜːpl/"},
+        {en:"pink", zh:"粉色", ipa:"/pɪŋk/"},
+        {en:"black", zh:"黑色", ipa:"/blæk/"},
+        {en:"white", zh:"白色", ipa:"/waɪt/"},
+        {en:"brown", zh:"棕色", ipa:"/braʊn/"},
+        {en:"like", zh:"喜欢", ipa:"/laɪk/"},
+        {en:"color", zh:"颜色", ipa:"/ˈkʌlə(r)/"}
+      ],
+      dialogues:[
+        { id:"d2", title:"最喜欢的颜色", zh:"和朋友谈论喜欢的颜色",
+          lines:[
+            {who:"Mia", en:"What color is it?", zh:"它是什么颜色？", ipa:"/wɒt ˈkʌlə ɪz ɪt/"},
+            {who:"Tom", en:"It's red.", zh:"它是红色的。", ipa:"/ɪts red/"},
+            {who:"Mia", en:"Do you like red?", zh:"你喜欢红色吗？", ipa:"/duː juː laɪk red/"},
+            {who:"Tom", en:"Yes, I do.", zh:"是的，我喜欢。", ipa:"/jes aɪ duː/"},
+            {who:"Tom", en:"I like red.", zh:"我喜欢红色。", ipa:"/aɪ laɪk red/"},
+            {who:"Mia", en:"I like blue.", zh:"我喜欢蓝色。", ipa:"/aɪ laɪk bluː/"},
+            {who:"Tom", en:"Blue is nice!", zh:"蓝色真好看！", ipa:"/bluː ɪz naɪs/"}
+          ]}
+      ]},
+    { id:"u3", title:"Unit 3 · 数字 Numbers", zh:"数数、说年龄",
+      words:[
+        {en:"one", zh:"一", ipa:"/wʌn/"},
+        {en:"two", zh:"二", ipa:"/tuː/"},
+        {en:"three", zh:"三", ipa:"/θriː/"},
+        {en:"four", zh:"四", ipa:"/fɔː(r)/"},
+        {en:"five", zh:"五", ipa:"/faɪv/"},
+        {en:"six", zh:"六", ipa:"/sɪks/"},
+        {en:"seven", zh:"七", ipa:"/ˈsevn/"},
+        {en:"eight", zh:"八", ipa:"/eɪt/"},
+        {en:"nine", zh:"九", ipa:"/naɪn/"},
+        {en:"ten", zh:"十", ipa:"/ten/"},
+        {en:"count", zh:"数数", ipa:"/kaʊnt/"},
+        {en:"number", zh:"数字", ipa:"/ˈnʌmbə(r)/"}
+      ],
+      dialogues:[
+        { id:"d3", title:"数一数", zh:"数苹果、问年龄",
+          lines:[
+            {who:"Lily", en:"How many apples?", zh:"有多少个苹果？", ipa:"/haʊ ˈmeni ˈæplz/"},
+            {who:"Sam", en:"Three apples.", zh:"三个苹果。", ipa:"/θriː ˈæplz/"},
+            {who:"Lily", en:"How old are you?", zh:"你几岁了？", ipa:"/haʊ əʊld ɑː juː/"},
+            {who:"Sam", en:"I am seven.", zh:"我七岁了。", ipa:"/aɪ æm ˈsevn/"}
+          ]}
+      ]}
+  ]
+};
+
+/* ================= 内置课本课程（外研版·三起点·三年级上册） ================= */
+const TEXTBOOK_TXT = `Unit 0: Welcome to school 开学啦
+welcome 欢迎
+school 学校
+hi 嘿，你好
+I 我
+be 是
+what 什么
+your 你的；你们的
+name 名字
+hello 你好
+my 我的
+goodbye 再见
+have 有，拥有
+a (an) 一（个）
+nice 令人愉快的
+day 一天
+good 好的
+morning 早晨，上午
+Ms 女士
+stand 站立
+stand up 站起来
+sit 坐
+sit down 坐下
+open 打开
+book 书
+close 合上
+point 指
+say 说
+read 阅读
+listen 听
+write 写
+对话：认识新朋友
+Amy: Hello. My name is Amy! 你好！我的名字叫埃米！
+Daming: I'm Daming. 我是大明。
+Sam: I'm Sam. 我是萨姆。
+Lingling: What's your name? 你叫什么名字？
+Bobo: I'm Bobo. 我是博博。
+Daming: Goodbye, Bobo. 再见，博博。
+Bobo: Have a nice day! 祝你今天愉快！
+对话：课堂问候
+Ms Smart: Good morning! I'm Ms Smart. 早上好！我是斯马特老师。
+Kids: Good morning, Ms Smart! 早上好，斯马特老师！
+Ms Smart: Stand up! 起立！
+Ms Smart: Sit down! 坐下！
+Ms Smart: Open your book! 打开你的书！
+Ms Smart: Close your book! 合上你的书！
+Unit 1: Let's be friends! 让我们做朋友吧！
+let's 让我们
+friend 朋友
+meet 认识，结识
+you 你；你们
+play 玩，玩耍
+happy 高兴的，快乐的
+new 新的
+do 做
+they 他们；她们；它们
+everyone 每个人，人人
+nine 九
+she 她
+too 也
+we 我们
+from 从
+the 这（那）些；特指
+twin 双胞胎中的一个
+he 他
+come 来；来到
+and 和；然后
+oh 噢
+no 不，不行
+help 帮助，帮忙
+here 在这里
+here you are 给你
+thank 感谢
+together 一起，一块儿
+OK 行，可以
+great 极棒的，极好的
+song 歌曲
+dear 亲爱的
+sing 唱，歌唱
+now 现在
+know 认识；知道
+our 我们的
+everybody 每个人，人人
+with 和……一起
+me 我
+对话：认识新朋友
+Sam: Hi, everyone! I'm Sam. I'm nine. 大家好！我是萨姆，我九岁。
+Daming: She's Amy. She's nine, too. 她是埃米，她也九岁。
+Sam: We're from the UK. We're twins! 我们来自英国，我们是双胞胎！
+Lingling: Hi, Sam. Hi, Amy. I'm Lingling. He's Daming. 你们好，萨姆、埃米！我是玲玲，他是大明。
+Daming: Come and play! 来玩吧！
+All: We are friends! 我们是朋友！
+对话：友谊之歌
+All: Hello! Hello! Nice to meet you. 你好！你好！很高兴认识你。
+All: Let's be friends! 让我们做朋友吧！
+All: Let's play. 我们一起玩吧。
+All: Let's have a happy day! 让我们度过快乐的一天！
+对话：故事·交朋友
+Ben: Hi, I'm Ben. I'm nine, too. 嗨，我是本，我也九岁。
+Mia: Hi, I'm Mia. He's David. We're nine. 嗨，我是米娅，他是戴维，我们九岁。
+David: Here you are. 给你。
+Ben: Thank you. 谢谢你。
+All: Let's be friends! 让我们做朋友吧！
+All: Let's play together! 让我们一起玩吧！
+Unit 2: My school things 我的文具
+thing 东西
+pack 收拾好
+pen 钢笔
+pencil 铅笔
+pencil case 笔袋；铅笔盒
+bag 袋；包
+for 为了
+ruler 尺子，直尺
+eraser 橡皮
+this 这，这个
+in 在……里
+schoolbag 书包
+it 它
+not 不，不是
+that 那，那个
+yes 是，对
+guess 猜，猜测
+find 发现，找到
+lost and found 失物招领
+bye 再见
+kid 小孩，儿童
+take care of 照看，照料
+there 在那里
+please 请
+back 回到原处
+come back 回来
+look 看，瞧
+look at 看（某人/某物）
+对话：这是什么东西？
+Amy: Amy! What's this? 埃米！这是什么？
+Tom: What's that, Tom? 汤姆，那是什么？
+Amy: It's my schoolbag. 这是我的书包。
+Tom: What's this? 这是什么？
+Amy: It's a pen. 这是一支钢笔。
+Tom: Is it a pen, too? 这也是一支钢笔吗？
+Amy: No, it isn't. It's a pencil. 不，不是，这是一支铅笔。
+Daming: What's this? 这是什么？
+Amy: It's a ruler. 这是一把尺子。
+Amy: It's a book. 这是一本书。
+Tom: What's this? It's you, Amy! 这是什么？是你，埃米！
+对话：失物招领
+Ms Olivia: Bye, kids. 再见，孩子们。
+Kids: Bye, Ms Olivia. 再见，奥利维娅老师。
+Lulu: What's this? 这是什么？
+Yoyo: It's a ruler. 这是一把尺子。
+Lulu: What's that? 那是什么？
+Yoyo: It's an eraser. 这是一块橡皮。
+Yoyo: Is this your pen, Yoyo? 友友，这是你的钢笔吗？
+Lulu: No, it isn't. It's my eraser. 不，不是，这是我的橡皮。
+Yoyo: Yes, it is. Thank you. 是的，谢谢你。
+All: Take care of your school things! 要爱护你的文具！
+Unit 3: It's a colourful world! 多彩的世界！
+colourful 颜色鲜艳的，色彩丰富的
+world 世界
+hooray 好哇
+umbrella 伞；雨伞
+clothes 衣服
+red 红色（的）
+pink 粉红色（的）
+green 绿色（的）
+yellow 黄色（的）
+orange 橙色（的）
+blue 蓝色（的）
+purple 紫色（的）
+rainbow 彩虹
+want 想要
+balloon 气球
+colour 颜色
+can 能，会
+see 看见，看到
+right 正确的，对的
+first 第一的
+magical 神奇的，有魔力的
+fun 有趣的，逗乐的
+black 黑色（的）
+so 这么，如此
+many 许多，大量
+picture 画，图画
+today 今天
+paint 画，作画
+对话：买气球
+Bobo: I want a balloon! I want a balloon! 我想要一个气球！我想要一个气球！
+Seller: What colour is it? Can you guess? 它是什么颜色？你能猜猜吗？
+Bobo: It's blue! 是蓝色的！
+Seller: Yes! Here you are. 对！给你。
+Bobo: I want a balloon, too. It's yellow! 我也想要一个气球，是黄色的！
+Bobo: It's pink! 是粉色的！
+Bobo: It's purple! 是紫色的！
+Bobo: It's red! 是红色的！
+Seller: Yes! You are right! 对！你答对了！
+Bobo: It's orange! 是橙色的！
+Bobo: It's green! 是绿色的！
+对话：多彩的世界之歌
+All: Look at our umbrellas, look at our clothes. 看看我们的伞，看看我们的衣服。
+All: Red, pink, green and yellow, orange, blue and purple! 红、粉、绿、黄，橙、蓝、紫！
+All: Look, look! A rainbow there! And a rainbow here! 看，看！那里有彩虹，这里也有彩虹！
+All: It's a colourful world! 这是一个多彩的世界！
+对话：魔法颜色
+Bobo: Yellow and blue, what colour? 黄色加蓝色，是什么颜色？
+All: It's green! 是绿色！
+Bobo: Yellow and red, what colour? 黄色加红色，是什么颜色？
+All: It's orange! 是橙色！
+Bobo: Red and blue, what colour? 红色加蓝色，是什么颜色？
+All: It's purple! 是紫色！
+Bobo: Red, yellow and blue, what colour? 红、黄、蓝加在一起，是什么颜色？
+All: It's black! 是黑色！
+Bobo: This is fun! 真有趣！
+Unit 4: Fun with numbers 数字真有趣
+number 数，数字
+count 数数
+how 多少；怎样，如何
+bird 鸟
+one 一
+two 二
+three 三
+four 四
+five 五
+six 六
+seven 七
+eight 八
+nine 九
+ten 十
+eleven 十一
+twelve 十二
+rope 绳
+who 谁，什么人
+make 制作
+Chinese knot 中国结
+beautiful 美丽的
+only 仅仅
+show 给……看
+baby 幼崽；雏鸟
+cheep 叽叽（小鸡叫声）
+egg 蛋
+hungry 饥饿的
+around 环绕，在……周围
+all 全部，所有
+all around 处处，到处
+对话：数一数
+All: Count, count, count with me! 数一数，数一数，和我一起数！
+All: How many birds can you see? 你能看到多少只鸟？
+All: One, two, three! 一、二、三！
+All: Four, five, six! 四、五、六！
+All: Seven, eight, nine! 七、八、九！
+All: Ten, eleven, twelve! 十、十一、十二！
+对话：神奇的中国结
+Amy: Wow! What is it? 哇！这是什么？
+Lingling: This is a Chinese knot. 这是中国结。
+Amy: It's beautiful! 真漂亮！
+Amy: How do you make it? 你是怎么做的？
+Lingling: Look! Only one rope! 看！只有一根绳子！
+Daming: Guess! How many ropes? 猜猜！有几根绳子？
+Amy: Twelve? 十二根？
+Lingling: Ha ha, no. Let me show you. 哈哈，不对。让我演示给你看。
+对话：故事·我的十二个蛋
+Mama Hen: One, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve. My twelve eggs! 一、二、三……十二。我的十二个蛋！
+Chicks: Cheep! Cheep! 叽叽！叽叽！
+Mama Hen: Twelve eggs. Twelve babies. 十二个蛋，十二个宝宝。
+Chick: Er, I'm hungry. 呃，我饿了。
+Mama Hen: One, two, three, four, five, six, seven, eight, nine, ten, eleven. Oh, no! Only eleven eggs. 一、二、三……十一。噢，不！只剩十一个蛋了。
+Chicks: Cheep! Cheep! 叽叽！叽叽！
+Mama Hen: My baby! 我的宝宝！
+Unit 5: We're family 我们是一家人
+family 家庭；家人
+dad 爸爸
+father 爸爸；父亲
+mum 妈妈
+mother 妈妈；母亲
+brother 哥哥；弟弟
+sister 姐姐；妹妹
+grandpa 祖父；外祖父
+grandfather 祖父；外祖父
+grandma 祖母；外祖母
+grandmother 祖母；外祖母
+but 但是，然而
+people 人；人们
+story 故事
+cap 帽子
+worry 担心
+on 在……上面
+come on 快点；加油
+photo 照片，相片
+love 爱，关爱
+daddy 爸爸（称呼）
+mummy 妈妈（称呼）
+where 在哪里
+dog 狗
+box 盒；箱
+对话：介绍家人
+Daming: Sam, this is my dad. 萨姆，这是我爸爸。
+Daming: This is my grandpa. 这是我爷爷。
+Daming: That is my grandma! 那是我的奶奶！
+Sam: Oh, this is my grandma. 噢，这是我的奶奶。
+Sam: But who is that? 但是那是谁？
+Daming: Hello. 你好。
+Sam: Hi. 嗨。
+对话：幸福之家之歌
+All: Dad, mum, brother, sister, grandpa, grandma and me. 爸爸、妈妈、哥哥、姐姐、爷爷、奶奶和我。
+All: This is my family. 这是我的家。
+All: We're a happy family! 我们是幸福的一家人！
+对话：故事·全家福
+Jiajia: I'm Jiajia. This is my sister. 我是佳佳，这是我姐姐。
+Jiajia: Oh, no! The cap! Come back, Lucky! 噢，不！帽子！回来，幸运！
+Family: Don't worry! We can help! 别担心！我们能帮忙！
+Jiajia: Great! 太棒了！
+Jiajia: This is my dad. This is my mum. 这是我爸爸，这是我妈妈。
+Jiajia: That's my grandma and that's my grandpa. 那是我奶奶，那是我爷爷。
+Jiajia: This is my family photo. I love my family. 这是我的全家福。我爱我的家人。
+Unit 6: My sweet home 甜蜜的家
+sweet 甜蜜的
+home 家
+game 游戏
+room 房间
+living room 客厅
+bedroom 卧室
+bathroom 浴室，卫生间
+kitchen 厨房
+dining room 餐厅
+door 门
+chair 椅子
+think 想，认为
+under 在……下面
+bed 床
+toy 玩具
+miaow 喵（猫叫声）
+table 桌子
+cat 猫
+ball 球
+their 他们的
+apple 苹果
+share 共用；分享
+put 放
+cooking 做饭
+sun 太阳
+like 喜欢
+run 跑
+lucky 幸运的
+big 大的
+little 小的
+everywhere 在各个地方；处处
+对话：苏苏在哪里？
+Dad: Dad, where's Susu? 爸爸，苏苏在哪儿？
+Mum: Susu is not here. 苏苏不在这儿。
+Mum: Look in the bedroom. 去卧室看看。
+Mum: She's under the bed. 她在床下面。
+Susu: Miaow... 喵……
+Dad: Oh! Susu is in the box with four little babies! 噢！苏苏在箱子里，还有四个小宝宝！
+对话：新家之歌
+All: Welcome to my new home! 欢迎来到我的新家！
+All: Who is in the living room? 谁在客厅？
+All: Who is in the bedroom? 谁在卧室？
+All: Who is in the bathroom? 谁在浴室？
+All: Who is in the kitchen? 谁在厨房？
+All: Who is in the dining room? 谁在餐厅？
+All: Let me open the doors and find you all! 让我打开门，把你们都找到！
+对话：甜蜜的家之歌
+All: Dad's in the kitchen. Cooking is fun. 爸爸在厨房，做饭真有趣。
+All: Mum's in the living room. She loves the sun. 妈妈在客厅，她喜欢阳光。
+All: Brother's in the bedroom. He likes to run. 哥哥在卧室，他喜欢跑步。
+All: This is our home. Lucky, lucky us! 这是我们的家，我们真幸运！`;
+function makeTextbookCourse(){
+  return {
+    id: "tb" + Date.now().toString(36),
+    title: "外研版（三起点）· 三年级上册",
+    source: "内置课本（外研版三上）",
+    units: parseCourseText(TEXTBOOK_TXT, "外研版三年级上册")
+  };
+}
+
+/* ================= 状态与掌握度 ================= */
+const LS_KEY = "aenet-state-v1";
+const defaultState = () => ({ course: null, mastery: {}, stars: 0, exams: 0, totalQ: 0, correctQ: 0 });
+let S = defaultState();
+function saveState(){ try { localStorage.setItem(LS_KEY, JSON.stringify(S)); } catch(e){} }
+function loadState(){
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (raw) S = Object.assign(defaultState(), JSON.parse(raw));
+  } catch(e) {}
+}
+function resetAll(){
+  S = defaultState(); saveState();
+  render(); go("#/home"); toast("已重置全部数据");
+}
+/* 词条 id：单元内 words 与 dialogue 句子统一编号 */
+function collectItems(unit){
+  const items = [];
+  unit.words.forEach((w, i) => { items.push(Object.assign({}, w, {_id: unit.id + "::w" + i, _unitId: unit.id, _unitTitle: unit.title, _kind: w.phrase ? "phrase" : "word"})); });
+  unit.dialogues.forEach(d => {
+    d.lines.forEach((l, i) => {
+      items.push({en: l.en, zh: l.zh, ipa: l.ipa || "", _id: unit.id + "::d" + d.id + "::" + i, _unitId: unit.id, _unitTitle: unit.title, _kind: "dialogue", _who: l.who, _dlgTitle: d.title});
+    });
+  });
+  return items;
+}
+function getMastery(id){ return S.mastery[id] || {consecutive: 0, wrongCount: 0, status: "new", lastWrongAt: 0, lastOkAt: 0, history: []}; }
+function recordResult(item, ok){
+  const m = getMastery(item._id);
+  m.history = (m.history || []).slice(-60);
+  m.history.push({ok, t: Date.now()});
+  if (ok) {
+    m.consecutive = (m.consecutive || 0) + 1;
+    m.lastOkAt = Date.now();
+    if (m.consecutive >= 3) m.status = "mastered";
+    else if (m.status === "new") m.status = "learning";
+  } else {
+    m.consecutive = 0;
+    m.wrongCount = (m.wrongCount || 0) + 1;
+    m.status = "learning";
+    m.lastWrongAt = Date.now();
+  }
+  S.mastery[item._id] = m;
+  if (ok) S.stars += 1;
+  S.totalQ += 1; S.correctQ += ok ? 1 : 0;
+  saveState();
+  return m;
+}
+function allItems(){
+  if (!S.course) return [];
+  return S.course.units.flatMap(collectItems);
+}
+function wrongItems(){
+  return allItems().filter(it => getMastery(it._id).wrongCount > 0)
+    .sort((a, b) => getMastery(b._id).lastWrongAt - getMastery(a._id).lastWrongAt);
+}
+function unitProgress(unit){
+  const items = collectItems(unit);
+  const mastered = items.filter(it => getMastery(it._id).status === "mastered").length;
+  return { total: items.length, mastered };
+}
+function courseStats(){
+  const items = allItems();
+  const mastered = items.filter(it => getMastery(it._id).status === "mastered").length;
+  const learning = items.filter(it => getMastery(it._id).status === "learning").length;
+  return { total: items.length, mastered, learning, wrong: wrongItems().filter(it => getMastery(it._id).status !== "mastered").length };
+}
+
+/* ================= 课程文本解析 ================= */
+const CN_NUM = {一:1, 二:2, 两:2, 三:3, 四:4, 五:5, 六:6, 七:7, 八:8, 九:9, 十:10, 百:100};
+function cnNum(s){
+  if (!s) return 0;
+  if (/^\d+$/.test(s)) return parseInt(s, 10);
+  let n = 0, t = 0;
+  for (const ch of s) {
+    if (ch === "十") { n += (t || 1) * 10; t = 0; }
+    else if (CN_NUM[ch]) t = CN_NUM[ch];
+    else if (ch === "零") t = 0;
+  }
+  return n + t;
+}
+function matchUnitHeader(line){
+  let m;
+  m = line.match(/^(?:unit|lesson)\s*(\d+)\s*[:：.\-—]?\s*(.*)$/i);
+  if (m) return { n: parseInt(m[1], 10), title: m[2].trim() };
+  m = line.match(/^第?\s*(\d+)\s*(?:课|单元|课单元)\s*[:：.\-—]?\s*(.*)$/);
+  if (m) return { n: parseInt(m[1], 10), title: m[2].trim() };
+  m = line.match(/^第\s*([一二三四五六七八九十百两]+)\s*课\s*[:：.\-—]?\s*(.*)$/);
+  if (m) return { n: cnNum(m[1]), title: m[2].trim() };
+  m = line.match(/^(?:单元|课)\s*(\d+)\s*[:：.\-—]?\s*(.*)$/);
+  if (m) return { n: parseInt(m[1], 10), title: m[2].trim() };
+  m = line.match(/^(\d+)\s*[.、．]\s*(.*)$/);
+  if (m) return { n: parseInt(m[1], 10), title: m[2].trim() };
+  m = line.match(/^([一二三四五六七八九十百两]+)\s*[、.．]\s*(.*)$/);
+  if (m) return { n: cnNum(m[1]), title: m[2].trim() };
+  return null;
+}
+function splitEnZh(rest){
+  const zhIdx = rest.search(/[\u4e00-\u9fa5]/);
+  if (zhIdx < 0) return { en: rest.trim(), zh: "" };
+  return { en: rest.slice(0, zhIdx).trim(), zh: rest.slice(zhIdx).trim() };
+}
+function parseWordLine(raw){
+  let line = raw, ipa = "";
+  const ipaM = line.match(/\/[^/]+\//);
+  if (ipaM) { ipa = ipaM[0]; line = line.replace(ipaM[0], " ").replace(/\s+/g, " ").trim(); }
+  const zhIdx = line.search(/[\u4e00-\u9fa5]/);
+  if (zhIdx < 0) return null;
+  let en = line.slice(0, zhIdx).trim();
+  const zh = line.slice(zhIdx).trim();
+  en = en.replace(/^[:\-|·—=,，.。\s]+|[:\-|·—=,，.。\s]+$/g, "").trim().replace(/[‘’]/g, "'").replace(/\s+/g, " ").trim();
+  if (!/^[A-Za-z]/.test(en) || !zh || en.includes(":") || en.length > 40) return null;
+  return { en, zh, ipa };
+}
+function parseDialogueLine(line){
+  let who = "", rest = line;
+  const m = line.match(/^([^:：]{1,16}?)[:：]\s*(.*)$/);
+  if (m && /^[A-Za-z\u4e00-\u9fa5 .'’\-]+$/.test(m[1])) { who = m[1].trim(); rest = m[2]; }
+  const s = splitEnZh(rest);
+  const en = s.en.replace(/[‘’]/g, "'").replace(/\s+/g, " ").trim();
+  if (!en) return null;
+  return { who: who || "A", en, zh: s.zh, ipa: autoLineIpa(en) };
+}
+function parseCourseText(rawText, title){
+  const lines = String(rawText || "").split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  const units = [];
+  let cur = null, section = "words";
+  const mkUnit = (t) => ({ id: "u" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), title: t, zh: "", words: [], dialogues: [] });
+  for (const line of lines) {
+    const uh = matchUnitHeader(line);
+    if (uh) {
+      cur = mkUnit(uh.title || ("Unit " + uh.n));
+      units.push(cur); section = "words"; continue;
+    }
+    if (/^(对话|dialogue|conversation|情景对话|角色扮演|let's talk|let’s talk|lets talk|role play|talk)/i.test(line)) {
+      section = "dialogue";
+      if (!cur) { cur = mkUnit(units.length ? "补充单元" : "未命名单元"); units.push(cur); }
+      const t = line.replace(/^(对话|dialogue|conversation|情景对话|角色扮演|let's talk|let’s talk|lets talk|role play|talk)[:：\-—]?\s*/i, "").trim();
+      cur.dialogues.push({ id: "d" + cur.dialogues.length, title: t || "对话", zh: "", lines: [] });
+      continue;
+    }
+    if (!cur) { cur = mkUnit(units.length ? "补充单元" : "未命名单元"); units.push(cur); }
+    if (section === "dialogue") {
+      const dl = parseDialogueLine(line);
+      if (dl) {
+        if (!cur.dialogues.length) cur.dialogues.push({ id: "d" + cur.dialogues.length, title: "对话", zh: "", lines: [] });
+        const dlg = cur.dialogues[cur.dialogues.length - 1];
+        if (!dlg.lines) dlg.lines = [];
+        dlg.lines.push(dl);
+        continue;
+      }
+    }
+    const w = parseWordLine(line);
+    if (w) {
+      if (!w.ipa) w.ipa = autoIpa(w.en);
+      w.phrase = w.en.includes(" ") ? true : undefined;
+      cur.words.push(w);
+    }
+  }
+  units.forEach(u => u.dialogues.forEach(d => { if (!d.lines) d.lines = []; }));
+  return units.filter(u => u.words.length || u.dialogues.length);
+}
+
+/* ================= 语音：朗读 + 口说识别 ================= */
+function speak(text, lang){
+  if (!("speechSynthesis" in window)) { toast("当前浏览器不支持语音朗读"); return; }
+  try {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = lang || "en-US";
+    u.rate = 0.82; u.pitch = 1.05; u.volume = 1;
+    const vs = window.speechSynthesis.getVoices();
+    const v = vs.find(x => x.lang && x.lang.toLowerCase().startsWith((lang || "en-US").slice(0, 2).toLowerCase()));
+    if (v) u.voice = v;
+    window.speechSynthesis.speak(u);
+  } catch(e) { toast("朗读失败，请重试"); }
+}
+function speakEn(t){ speak(t, "en-US"); }
+function speakZh(t){ speak(t, "zh-CN"); }
+let asr = null;
+function asrSupported(){ return !!(window.SpeechRecognition || window.webkitSpeechRecognition); }
+function startAsr(onResult, onEnd){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return false;
+  stopAsr();
+  const r = new SR();
+  r.lang = "en-US"; r.interimResults = true; r.maxAlternatives = 3; r.continuous = false;
+  let final = "";
+  r.onresult = e => {
+    let interim = "";
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      const t = e.results[i][0].transcript;
+      if (e.results[i].isFinal) final += t; else interim += t;
+    }
+    onResult((final || interim).trim(), !!final);
+  };
+  r.onerror = e => { onEnd && onEnd(false, e.error || "error"); };
+  r.onend = () => { if (onEnd) onEnd(true); };
+  asr = r;
+  try { r.start(); return true; } catch(e) { return false; }
+}
+function stopAsr(){ try { asr && asr.stop(); } catch(e){} }
+
+/* ================= 手写：画布 + 字形匹配评分 ================= */
+function setupCanvas(canvas, onChanged){
+  const ctx = canvas.getContext("2d");
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  let drawing = false;
+  function resize(){
+    const w = canvas.clientWidth || 340, h = canvas.clientHeight || 170;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, w, h);
+    ctx.lineWidth = 10; ctx.lineCap = "round"; ctx.lineJoin = "round";
+    ctx.strokeStyle = "#274C77";
+  }
+  resize();
+  const pos = e => { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; };
+  canvas.addEventListener("pointerdown", e => {
+    drawing = true;
+    try { canvas.setPointerCapture(e.pointerId); } catch(err){}
+    const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y);
+  });
+  canvas.addEventListener("pointermove", e => { if (!drawing) return; const p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); });
+  const up = () => { if (drawing) { drawing = false; onChanged && onChanged(); } };
+  canvas.addEventListener("pointerup", up);
+  canvas.addEventListener("pointerleave", up);
+  return {
+    clear(){ ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, canvas.width / dpr, canvas.height / dpr); onChanged && onChanged(); },
+    isEmpty(){
+      const d = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      for (let i = 3; i < d.length; i += 4) if (d[i] > 40) return false;
+      return true;
+    },
+    getGrid(){
+      const w = canvas.width, h = canvas.height;
+      const d = ctx.getImageData(0, 0, w, h).data;
+      let minX = w, minY = h, maxX = -1, maxY = -1;
+      for (let y = 0; y < h; y++) for (let x = 0; x < w; x++)
+        if (d[(y * w + x) * 4 + 3] > 40) { if (x < minX) minX = x; if (x > maxX) maxX = x; if (y < minY) minY = y; if (y > maxY) maxY = y; }
+      if (maxX < 0) return null;
+      const bw = maxX - minX + 1, bh = maxY - minY + 1, G = 24, H = 12;
+      const grid = new Float32Array(G * H);
+      for (let y = 0; y < H; y++) for (let x = 0; x < G; x++) {
+        const x0 = minX + Math.floor(bw * x / G), x1 = Math.min(minX + Math.floor(bw * (x + 1) / G), w);
+        const y0 = minY + Math.floor(bh * y / H), y1 = Math.min(minY + Math.floor(bh * (y + 1) / H), h);
+        let sum = 0, c = 0;
+        for (let yy = y0; yy < y1; yy++) for (let xx = x0; xx < x1; xx++) { sum += d[(yy * w + xx) * 4 + 3]; c++; }
+        grid[y * G + x] = c ? sum / c / 255 : 0;
+      }
+      return grid;
+    }
+  };
+}
+function refGridFor(text){
+  const c = document.createElement("canvas");
+  c.width = 720; c.height = 240;
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, 720, 240);
+  ctx.font = '118px "Baloo 2", "Comic Sans MS", "Segoe Print", "Chalkboard SE", cursive';
+  ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillStyle = "#000";
+  ctx.fillText(text, 360, 132);
+  const d = ctx.getImageData(0, 0, 720, 240).data;
+  let minX = 720, minY = 240, maxX = -1, maxY = -1;
+  for (let y = 0; y < 240; y++) for (let x = 0; x < 720; x++)
+    if (d[(y * 720 + x) * 4 + 3] > 40) { if (x < minX) minX = x; if (x > maxX) maxX = x; if (y < minY) minY = y; if (y > maxY) maxY = y; }
+  if (maxX < 0) return null;
+  const bw = maxX - minX + 1, bh = maxY - minY + 1, G = 24, H = 12;
+  const grid = new Float32Array(G * H);
+  for (let y = 0; y < H; y++) for (let x = 0; x < G; x++) {
+    const x0 = minX + Math.floor(bw * x / G), x1 = Math.min(minX + Math.floor(bw * (x + 1) / G), 720);
+    const y0 = minY + Math.floor(bh * y / H), y1 = Math.min(minY + Math.floor(bh * (y + 1) / H), 240);
+    let sum = 0, c = 0;
+    for (let yy = y0; yy < y1; yy++) for (let xx = x0; xx < x1; xx++) { sum += d[(yy * 720 + xx) * 4 + 3]; c++; }
+    grid[y * G + x] = c ? sum / c / 255 : 0;
+  }
+  return grid;
+}
+function gradeHandwriting(inputGrid, ref){
+  if (!inputGrid || !ref) return { iou: 0, coverage: 0, pass: false };
+  let inter = 0, union = 0, refInk = 0;
+  for (let i = 0; i < inputGrid.length; i++) {
+    const a = inputGrid[i] > 0.25, b = ref[i] > 0.25;
+    if (b) refInk++;
+    if (a && b) inter++;
+    if (a || b) union++;
+  }
+  const iou = union ? inter / union : 0;
+  const coverage = refInk ? inter / refInk : 0;
+  return { iou: Math.round(iou * 100), coverage: Math.round(coverage * 100), pass: iou >= 0.34 && coverage >= 0.5 };
+}
+
+/* ================= 图标 ================= */
+const IC = {
+  star:'<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4l-5.8 3.1 1.1-6.5L2.6 9.4l6.5-.9z"/></svg>',
+  mic:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>',
+  key:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="11" rx="2"/><path d="M7 11h.01M11 11h.01M15 11h.01M19 11h.01M8 14h8"/></svg>',
+  pen:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l4 4L8 20l-5 1 1-5z"/><path d="M14 6l4 4"/></svg>',
+  check:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>',
+  x:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  play:'<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>',
+  trash:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5h6v2M6 7l1 14h10l1-14M10 11v6M14 11v6"/></svg>',
+  close:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  sound:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>',
+  book:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4a2 2 0 0 0-2-2H6.5A2.5 2.5 0 0 0 4 4.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>',
+  flag:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V4"/><path d="M4 5h11l-2 4 2 4H4"/></svg>',
+  home:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>',
+  info:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>',
+  upload:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v4h16v-4"/></svg>',
+  trophy:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v6a5 5 0 0 1-10 0z"/><path d="M7 5H4v2a3 3 0 0 0 3 3M17 5h3v2a3 3 0 0 1-3 3"/></svg>',
+  spark:'<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.9 5.6L19.5 9l-5.6 1.9L12 16.5l-1.9-5.6L4.5 9l5.6-1.4z"/><path d="M19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9z"/></svg>',
+  ref:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+  refresh:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 6.3"/><path d="M20 4v7h-7"/></svg>',
+  pencil:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l4 4L8 20l-5 1 1-5z"/></svg>',
+  bulb:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.7.6 1.5 1.3 1.5 2.1h4c0-.8.8-1.5 1.5-2.1A6 6 0 0 0 12 3z"/></svg>'
+};
+
+/* ================= 考试引擎 ================= */
+const MODE_META = {
+  speak: { label:"口说", icon: IC.mic, cls:"coral", desc:"看到提示，大声说出来" },
+  type:  { label:"打字", icon: IC.key, cls:"blue", desc:"看到中文，拼出英文" },
+  write: { label:"手写", icon: IC.pen, cls:"sun", desc:"看到中文，写出来" },
+  e2c:   { label:"英翻中", icon: IC.book, cls:"green", desc:"看英文，选中文意思" },
+  c2e:   { label:"中翻英", icon: IC.flag, cls:"blue", desc:"看中文，选英文" }
+};
+const KIND_META = {
+  word: { label:"单字", desc:"本单元单词" },
+  phrase: { label:"短语", desc:"词组与固定搭配" },
+  dialogue: { label:"对话", desc:"对话句子与情景理解" }
+};
+const DIFF_META = [
+  { n:"Ⅰ", label:"初级", desc:"只考单字 · 选项题与短词拼写" },
+  { n:"Ⅱ", label:"中级", desc:"单字 + 短语 · 支持整词拼写" },
+  { n:"Ⅲ", label:"高级", desc:"单字 + 短语 + 对话 · 句子朗读与理解" }
+];
+
+let QUIZ = null;
+let QUIZ_CFG = null;
+
+function buildQuiz(cfg){
+  let items = allItems();
+  if (cfg.unitIds && cfg.unitIds.length) items = items.filter(it => cfg.unitIds.includes(it._unitId));
+  if (cfg.source === "wrong") {
+    items = wrongItems().filter(it => getMastery(it._id).status !== "mastered");
+  }
+  if (cfg.itemIds && cfg.itemIds.length) items = items.filter(it => cfg.itemIds.includes(it._id));
+  const kindSet = new Set(cfg.kinds);
+  items = items.filter(it => kindSet.has(it._kind));
+  const diffKinds = cfg.diff === 1 ? ["word"] : cfg.diff === 2 ? ["word", "phrase"] : ["word", "phrase", "dialogue"];
+  items = items.filter(it => diffKinds.includes(it._kind));
+  if (!items.length) return { error: cfg.source === "wrong" ? "错题本里没有符合当前筛选的题目" : "当前筛选下没有可考的题目，请调整单元、题型或难度" };
+  const modes = cfg.modes;
+  const pool = [];
+  for (const it of items) {
+    let fmts = it._kind === "dialogue" ? modes.filter(m => ["speak", "e2c", "c2e"].includes(m)) : modes.slice();
+    if (cfg.diff === 1) fmts = fmts.filter(m => !(m === "type" || m === "write") || normWord(it.en).length <= 6);
+    if (it._kind !== "dialogue" && normWord(it.en).replace(/ /g, "").length > 12) fmts = fmts.filter(m => !["type", "write"].includes(m));
+    for (const f of fmts) pool.push({ item: it, mode: f });
+  }
+  if (!pool.length) return { error: "当前筛选下没有可考的题目，请调整考核方式或难度" };
+  const n = cfg.count && cfg.count !== "all" ? Math.min(cfg.count, pool.length) : pool.length;
+  const picked = sample(pool, n);
+  const questions = picked.map(p => makeQuestion(p.item, p.mode, items));
+  return { questions };
+}
+function distractorPool(item, items, field){
+  const seen = new Set([item[field]]);
+  const out = [];
+  for (const it of shuffle(items)) {
+    const v = it[field];
+    if (v && !seen.has(v)) { seen.add(v); out.push(v); }
+    if (out.length >= 3) break;
+  }
+  return out;
+}
+function makeQuestion(item, mode, items){
+  const q = { item, mode, answer: item.en };
+  if (mode === "e2c") {
+    const opts = shuffle([item.zh].concat(distractorPool(item, items, "zh")));
+    while (opts.length < 4) opts.push("以上都不是");
+    q.options = opts.slice(0, 4);
+    q.answer = item.zh;
+  } else if (mode === "c2e") {
+    const opts = shuffle([item.en].concat(distractorPool(item, items, "en")));
+    while (opts.length < 4) opts.push("以上都不是");
+    q.options = opts.slice(0, 4);
+    q.answer = item.en;
+  }
+  return q;
+}
+function startQuiz(cfg){
+  const res = buildQuiz(cfg);
+  if (res.error) { toast(res.error); return false; }
+  QUIZ_CFG = Object.assign({}, cfg);
+  QUIZ = {
+    questions: res.questions,
+    idx: 0,
+    correct: 0,
+    results: [],
+    cur: { answered: false, correct: false, picked: null, asrText: "", writeScore: null }
+  };
+  renderQuiz();
+  return true;
+}
+function quizFinish(){
+  S.exams += 1; saveState();
+  renderResult();
+}
+function submitAnswer(ok){
+  if (QUIZ.cur.answered) return;
+  const q = QUIZ.questions[QUIZ.idx];
+  QUIZ.cur.answered = true;
+  QUIZ.cur.correct = ok;
+  if (ok) QUIZ.correct++;
+  QUIZ.results.push({ q, ok, my: QUIZ.cur.picked !== null ? QUIZ.cur.picked : (QUIZ.cur.asrText || (QUIZ.cur.writeScore !== null ? "手写作答" : "")) });
+  recordResult(q.item, ok);
+  renderQuiz();
+}
+function quizNext(){
+  QUIZ.idx++;
+  if (QUIZ.idx >= QUIZ.questions.length) { quizFinish(); return; }
+  QUIZ.cur = { answered: false, correct: false, picked: null, asrText: "", writeScore: null };
+  renderQuiz();
+}
+
+/* ===== 考试进行中视图 ===== */
+function renderQuiz(){
+  if (!QUIZ) return;
+  const q = QUIZ.questions[QUIZ.idx];
+  const total = QUIZ.questions.length;
+  const cur = QUIZ.cur;
+  const meta = MODE_META[q.mode];
+  const km = KIND_META[q.item._kind];
+  const diff = DIFF_META[QUIZ_CFG.diff - 1];
+  let prompt = "";
+  if (q.mode === "e2c") {
+    prompt = `<div class="big-en en">${esc(q.item.en)}</div>
+              ${q.item.ipa ? `<div class="ipa">${esc(q.item.ipa)}</div>` : ""}
+              <div class="hint">选出对应的中文意思</div>`;
+  } else if (q.mode === "c2e") {
+    prompt = `<div class="big-zh">${esc(q.item.zh)}</div>
+              <div class="hint">选出对应的英文</div>`;
+  } else if (q.mode === "type") {
+    prompt = `<div class="big-zh">${esc(q.item.zh)}</div>
+              <div class="hint">在下方输入框里拼出英文</div>`;
+  } else if (q.mode === "write") {
+    prompt = `<div class="big-zh">${esc(q.item.zh)}</div>
+              <div class="hint">在下方白板上写出英文（一笔一画慢慢写）</div>`;
+  } else if (q.mode === "speak") {
+    if (q.item._kind === "dialogue") {
+      prompt = `<div class="big-en en">${esc(q.item.en)}</div>
+                <div class="big-zh" style="font-size:17px">${esc(q.item.zh)}</div>
+                <div class="hint">先听示范，再大声读出来</div>`;
+    } else {
+      prompt = `<div class="big-zh">${esc(q.item.zh)}</div>
+                <div class="hint">大声说出对应的英文</div>`;
+    }
+  }
+  let answer = "";
+  if (q.mode === "e2c" || q.mode === "c2e") {
+    const keys = ["A", "B", "C", "D"];
+    answer = `<div class="opt-grid">${q.options.map((o, i) => {
+      let cls = "opt";
+      if (cur.answered) {
+        if (i === q.options.indexOf(q.answer)) cls += " correct";
+        else if (i === cur.picked) cls += " wrong";
+      }
+      return `<button class="${cls}" data-opt="${i}" ${cur.answered ? "disabled" : ""}><span class="o-key">${keys[i]}</span><span>${esc(o)}</span></button>`;
+    }).join("")}</div>`;
+  } else if (q.mode === "type") {
+    answer = `<div class="type-row">
+        <input id="typeInput" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="输入英文…" ${cur.answered ? "disabled" : ""}>
+        <button class="btn sm" id="btnType" ${cur.answered ? "disabled" : ""}>${IC.check} 检查</button>
+      </div>`;
+  } else if (q.mode === "speak") {
+    answer = `<div class="speak-area">
+        <div class="mic-btn" id="micBtn">${IC.mic}</div>
+        <div class="asr-line" id="asrLine">${cur.answered ? "" : "点一下麦克风，然后开始说"}</div>
+        ${q.item._kind === "dialogue" && !cur.answered ? `<button class="btn ghost sm" id="btnDemo" style="margin-top:12px">${IC.sound} 听示范</button>` : ""}
+        <div id="speakCheck"></div>
+      </div>`;
+  } else if (q.mode === "write") {
+    answer = `<div class="hw-area">
+        <div class="hw-canvas-wrap">
+          <canvas id="hwCanvas" width="340" height="170" style="width:340px;height:170px"></canvas>
+          <div class="hw-guide">在此书写区写字</div>
+        </div>
+        <div style="display:flex; gap:10px; justify-content:center; margin-top:14px">
+          <button class="btn ghost sm" id="btnHwClear">${IC.trash} 清除</button>
+          <button class="btn sun sm" id="btnHwCheck">${IC.check} 检查我的字</button>
+        </div>
+        <div id="hwCheck"></div>
+      </div>`;
+  }
+  const fb = cur.answered ? feedbackBanner(q, cur) : "";
+  const nextBtn = cur.answered ? `
+    <div class="quiz-next">
+      <button class="btn ${QUIZ.idx >= total - 1 ? "green" : "coral"}" id="btnNext">${QUIZ.idx >= total - 1 ? "完成考试" : "下一题"}</button>
+    </div>` : "";
+  $("#view").innerHTML = `
+  <div class="quiz-shell">
+    <div class="quiz-top">
+      <div class="qt-row">
+        <button class="icon-btn" id="btnQuit">${IC.close}</button>
+        <div class="quiz-progress"><i style="width:${Math.round(QUIZ.idx / total * 100)}%"></i></div>
+        <div class="quiz-score">${IC.star}<span>${QUIZ.correct}</span><span style="color:var(--ink-3)">/${total}</span></div>
+      </div>
+    </div>
+    <div class="quiz-body">
+      <div class="q-card">
+        <div style="display:flex; gap:8px; flex-wrap:wrap">
+          <span class="q-tag blue">${km.label} · ${diff.n}级</span>
+          <span class="q-tag coral">${meta.icon} ${meta.label}</span>
+          <span class="q-tag sun" style="margin-left:auto">第 ${QUIZ.idx + 1} / ${total} 题</span>
+        </div>
+        <div class="q-prompt">${prompt}</div>
+        ${answer}
+        ${fb}
+        ${nextBtn}
+      </div>
+    </div>
+  </div>`;
+  bindQuizEvents(q, cur);
+}
+function feedbackBanner(q, cur){
+  const ok = cur.correct;
+  if (ok) {
+    return `<div class="fb-banner good">
+      <div class="fb-ic">${IC.check}</div>
+      <div><div class="fb-t">答对了，真棒！</div>
+      <div class="fb-d">${esc(q.item.en)} ${esc(q.item.ipa || "")} · ${esc(q.item.zh)}</div></div>
+    </div>`;
+  }
+  return `<div class="fb-banner bad">
+    <div class="fb-ic">${IC.x}</div>
+    <div><div class="fb-t">没关系，记住它</div>
+    <div class="fb-d">正确答案：<b>${esc(q.item.en)}</b> ${esc(q.item.ipa || "")} · ${esc(q.item.zh)}</div>
+    <div class="fb-d">已自动加入错题本，连对 3 次才会通过</div></div>
+  </div>`;
+}
+function bindQuizEvents(q, cur){
+  const btnQuit = $("#btnQuit");
+  if (btnQuit) btnQuit.onclick = () => {
+    modal(`<h3>退出考试？</h3><p>已答 ${QUIZ.results.length} 题，退出后本次成绩不保留。</p>
+      <div class="m-row"><button class="btn ghost" onclick="closeModal()">继续答题</button><button class="btn coral" onclick="quitQuiz()">退出</button></div>`);
+  };
+  if (cur.answered) {
+    const btnNext = $("#btnNext");
+    if (btnNext) btnNext.onclick = quizNext;
+    return;
+  }
+  if (q.mode === "e2c" || q.mode === "c2e") {
+    $$(".opt", $("#view")).forEach(b => b.onclick = () => {
+      if (cur.answered) return;
+      const i = parseInt(b.dataset.opt, 10);
+      cur.picked = q.options[i];
+      submitAnswer(q.options[i] === q.answer);
+    });
+  } else if (q.mode === "type") {
+    const input = $("#typeInput"), btn = $("#btnType");
+    const trySubmit = () => {
+      const v = input.value;
+      if (!v.trim()) { toast("先输入你的答案"); return; }
+      cur.picked = v;
+      submitAnswer(normWord(v) === normWord(q.answer));
+    };
+    btn.onclick = trySubmit;
+    input.addEventListener("keydown", e => { if (e.key === "Enter") trySubmit(); });
+    input.focus();
+  } else if (q.mode === "speak") {
+    const micBtn = $("#micBtn"), line = $("#asrLine"), ck = $("#speakCheck");
+    let listening = false;
+    const demoBtn = $("#btnDemo");
+    if (demoBtn) demoBtn.onclick = () => speakEn(q.item.en);
+    const showSpeakCheck = () => {
+      if (cur.answered) return;
+      ck.innerHTML = `<div class="self-check">
+        <button class="btn green sm" id="spOk">${IC.check} 我说对了</button>
+        <button class="btn coral sm" id="spNo">${IC.x} 说错了</button>
+      </div>`;
+      $("#spOk").onclick = () => submitAnswer(true);
+      $("#spNo").onclick = () => submitAnswer(false);
+    };
+    micBtn.onclick = () => {
+      if (listening) { stopAsr(); listening = false; micBtn.classList.remove("listening"); return; }
+      if (!asrSupported()) {
+        line.textContent = "当前浏览器不支持语音识别，请用自我判定";
+        showSpeakCheck();
+        return;
+      }
+      listening = true;
+      micBtn.classList.add("listening");
+      line.textContent = "正在听… 请大声说";
+      const ok = startAsr((text, isFinal) => {
+        line.textContent = text ? "听到：" + text : "正在听…";
+        cur.asrText = text;
+        if (isFinal) {
+          stopAsr();
+          if (fuzzyMatch(text, q.answer)) { line.textContent = "听得很清楚，答对了！"; submitAnswer(true); }
+          else { line.textContent = "听到：" + text; showSpeakCheck(); }
+        }
+      }, (okFlag, err) => {
+        listening = false;
+        micBtn.classList.remove("listening");
+        line.textContent = "没有听清，再说一次或用自我判定";
+        showSpeakCheck();
+      });
+      if (!ok) { listening = false; micBtn.classList.remove("listening"); showSpeakCheck(); }
+    };
+  } else if (q.mode === "write") {
+    const canvas = $("#hwCanvas");
+    const hw = setupCanvas(canvas, () => {});
+    const ck = $("#hwCheck");
+    $("#btnHwClear").onclick = () => { hw.clear(); ck.innerHTML = ""; };
+    $("#btnHwCheck").onclick = () => {
+      if (hw.isEmpty()) { toast("先写出你的答案"); return; }
+      const score = gradeHandwriting(hw.getGrid(), refGridFor(q.answer));
+      cur.writeScore = score.pass ? "通过" : "待判定";
+      if (score.pass) {
+        ck.innerHTML = `<div class="fb-banner good" style="margin-top:0"><div class="fb-ic">${IC.check}</div>
+          <div><div class="fb-t">字写得对，好棒！</div><div class="fb-d">字形匹配度 ${score.iou}%</div></div></div>`;
+        submitAnswer(true);
+      } else {
+        ck.innerHTML = `<div class="fb-banner bad" style="margin-top:0"><div class="fb-ic">${IC.x}</div>
+          <div><div class="fb-t">机器没认出来（匹配 ${score.iou}%），以你为准</div>
+          <div class="fb-d">如果你觉得写对了，就点"我写对了"</div></div></div>
+          <div class="self-check">
+            <button class="btn green sm" id="hwOk">${IC.check} 我写对了</button>
+            <button class="btn coral sm" id="hwNo">${IC.x} 写错了</button>
+          </div>`;
+        $("#hwOk").onclick = () => submitAnswer(true);
+        $("#hwNo").onclick = () => submitAnswer(false);
+      }
+    };
+  }
+}
+function quitQuiz(){
+  closeModal();
+  QUIZ = null;
+  go("#/exam");
+}
+
+/* ===== 考试结果视图 ===== */
+function renderResult(){
+  const total = QUIZ.questions.length;
+  const correct = QUIZ.correct;
+  const pct = total ? Math.round(correct / total * 100) : 0;
+  const stars = pct >= 90 ? 3 : pct >= 70 ? 2 : pct >= 50 ? 1 : 0;
+  const msg = stars === 3 ? "太厉害了，全都会！" : stars === 2 ? "很棒，继续加油！" : stars === 1 ? "还不错，错题再练练！" : "别灰心，错题本见！";
+  const wrongList = QUIZ.results.filter(r => !r.ok);
+  const review = QUIZ.results.map((r) => `
+    <div class="review-item">
+      <div class="r-ic ${r.ok ? "ok" : "no"}">${r.ok ? IC.check : IC.x}</div>
+      <div style="flex:1; min-width:0">
+        <div class="r-t">${esc(r.q.item.en)} <span style="font-weight:500;color:var(--ink-3)">${esc(r.q.item.ipa || "")}</span></div>
+        <div class="r-d">${esc(r.q.item.zh)} · ${MODE_META[r.q.mode].label}题</div>
+        ${!r.ok ? `<div class="r-wrong">你的答案：${esc(r.my)}</div><div class="r-ans">正确：${esc(r.q.item.en)} ${esc(r.q.item.zh)}</div>` : ""}
+      </div>
+      <span class="master-chip ${r.ok ? "on" : "learn"}">${r.ok ? "已记星" : "错题"}</span>
+    </div>`).join("");
+  $("#view").innerHTML = `
+    <div class="view-head"><div class="view-title">考试结果</div></div>
+    <div class="card result-hero">
+      <div class="score-ring"><div class="s-num">${correct}<span style="font-size:20px;color:var(--ink-3)">/${total}</span></div><div class="s-lab">答对 ${pct}%</div></div>
+      <div class="stars-row">${[0, 1, 2].map(i => `<span class="${i < stars ? "" : "off"}">${IC.star}</span>`).join("")}</div>
+      <div class="res-msg">${msg}</div>
+      <div style="margin-top:18px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap">
+        <button class="btn green" id="btnAgain">${IC.trophy} 再做一次</button>
+        ${wrongList.length ? `<button class="btn coral" id="btnWrongOnly">${IC.star} 只做错题 (${wrongList.length})</button>` : ""}
+        <button class="btn ghost" id="btnHome">回首页</button>
+      </div>
+      ${wrongList.length ? `<div class="fb-banner bad" style="margin-top:18px; text-align:left"><div class="fb-ic">${IC.x}</div><div>已把 ${wrongList.length} 道错题加入错题本。错题需要连续答对 3 次，才会被标记为"已掌握"。</div></div>` : `<div class="fb-banner good" style="margin-top:18px"><div class="fb-ic">${IC.check}</div><div>这次没有错题，全部通过！</div></div>`}
+    </div>
+    <div class="card" style="margin-top:16px">
+      <div class="card-title">逐题回顾</div>
+      ${review}
+    </div>`;
+  $("#btnAgain").onclick = () => startQuiz(QUIZ_CFG);
+  const btnWo = $("#btnWrongOnly");
+  if (btnWo) btnWo.onclick = () => {
+    const cfg = Object.assign({}, QUIZ_CFG, { source: "wrong", count: "all" });
+    startQuiz(cfg);
+  };
+  $("#btnHome").onclick = () => { QUIZ = null; go("#/home"); };
+}
+
+/* ================= 路由与渲染 ================= */
+function parseHash(){
+  const h = (location.hash || "#/home").replace("#", "");
+  const parts = h.split("/").filter(Boolean);
+  return { base: parts[0] || "home", param: parts[1] || "" };
+}
+function go(h){
+  location.hash = h;
+  window.scrollTo(0, 0);
+}
+function render(){
+  stopAsr();
+  const { base, param } = parseHash();
+  const tabMap = { home:"#/home", course:"#/course", import:"#/course", unit:"#/course", exam:"#/exam", wrongbook:"#/wrongbook", help:"#/help" };
+  $$(".tab", $("#tabbar")).forEach(t => t.classList.toggle("on", t.dataset.route === (tabMap[base] || "")));
+  const wb = wrongItems().filter(it => getMastery(it._id).status !== "mastered").length;
+  const badge = $("#wbBadge");
+  if (badge) { badge.textContent = wb; badge.classList.toggle("hidden", wb === 0); }
+  const stars = $("#topStars");
+  if (stars) stars.textContent = S.stars;
+  const hideNav = ["quiz", "result"].includes(base);
+  $("#tabbar").classList.toggle("hidden", hideNav);
+  if (base === "quiz") { if (QUIZ) renderQuiz(); else go("#/home"); return; }
+  if (base === "result") { if (QUIZ) renderResult(); else go("#/home"); return; }
+  const views = { home: renderHome, course: renderCourse, import: renderImport, unit: renderUnit, exam: renderExam, wrongbook: renderWrongBook, help: renderHelp };
+  const fn = views[base];
+  if (!fn) { location.hash = "#/home"; return; }
+  fn(param);
+}
+
+/* ===== 首页 ===== */
+function renderHome(){
+  const st = courseStats();
+  const hasCourse = !!S.course;
+  const wb = wrongItems().filter(it => getMastery(it._id).status !== "mastered").length;
+  const unitCards = hasCourse ? S.course.units.map((u, i) => {
+    const p = unitProgress(u);
+    const color = UNIT_COLORS[i % UNIT_COLORS.length];
+    const dots = Math.round(p.mastered / Math.max(p.total, 1) * 4);
+    return `<div class="unit-card" style="--uc:${color}" onclick="go('#/unit/${u.id}')">
+      <div><div class="u-no">UNIT ${i + 1}</div><div class="u-t">${esc(u.title)}</div>
+      <div class="u-meta">${p.total} 个考点 · 已掌握 ${p.mastered}</div></div>
+      <div class="u-prog"><div class="prog-dots">${[0,1,2,3].map(k => `<i class="${k < dots ? "on" : ""}"></i>`).join("")}</div></div>
+    </div>`;
+  }).join("") : `<div class="card" style="text-align:center">
+      <div style="font-weight:900; font-size:17px; margin-bottom:6px">还没有课程</div>
+      <p style="color:var(--ink-2); font-size:14px; margin-bottom:16px">上传课程内容与单字表，Aenet 会自动拆分成单元、整理重点并生成考试。</p>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap">
+        <button class="btn coral" onclick="go('#/import')">${IC.upload} 导入课程</button>
+        <button class="btn ghost" onclick="loadSample()">先用示例课程试试</button>
+      </div>
+    </div>`;
+  $("#view").innerHTML = `
+    <div class="hero">
+      <span class="badge">${IC.spark} 小朋友的英语学习舱</span>
+      <h1 class="en" style="font-family:'Baloo 2',cursive">Learn. <span style="color:#FFE08A">Practice.</span> Master!</h1>
+      <p>上传课程 → 整理单字与对话重点（含音标、中文翻译）→ 三级难度考试（口说 / 打字 / 手写 / 英翻中 / 中翻英）→ 错题进错题本，连对 3 次才算真正掌握。</p>
+      <div class="steps">
+        <div class="step"><div class="n">1</div><div class="t">上传课程</div><div class="d">内容 + 单字表</div></div>
+        <div class="step"><div class="n">2</div><div class="t">重点整理</div><div class="d">音标 + 翻译</div></div>
+        <div class="step"><div class="n">3</div><div class="t">分级考试</div><div class="d">3 级 × 5 种方式</div></div>
+        <div class="step"><div class="n">4</div><div class="t">错题攻克</div><div class="d">连对 3 次=掌握</div></div>
+      </div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="ic" style="color:var(--blue)">${IC.book}</div><div class="num">${st.total}</div><div class="lab">全部考点</div></div>
+      <div class="stat-card"><div class="ic" style="color:var(--green)">${IC.check}</div><div class="num">${st.mastered}</div><div class="lab">已掌握</div></div>
+      <div class="stat-card"><div class="ic" style="color:var(--coral)">${IC.x}</div><div class="num">${st.learning}</div><div class="lab">练习中</div></div>
+      <div class="stat-card"><div class="ic" style="color:var(--sun-d)">${IC.star}</div><div class="num">${S.stars}</div><div class="lab">星星</div></div>
+    </div>
+    <div class="quick-grid">
+      <button class="quick q-blue" onclick="go('#/exam')"><div class="q-t">${IC.flag} 去考试</div><div class="q-d">选择单元、题型与考核方式，开始挑战</div><div class="q-ic">${IC.flag}</div></button>
+      <button class="quick q-coral" onclick="go('#/wrongbook')"><div class="q-t">${IC.star} 错题本</div><div class="q-d">${wb} 道错题待攻克，连对 3 次即掌握</div><div class="q-ic">${IC.star}</div></button>
+      <button class="quick q-sun" onclick="go('#/course')"><div class="q-t">${IC.book} 课程重点</div><div class="q-d">单字、短语与对话重点整理</div><div class="q-ic">${IC.book}</div></button>
+      <button class="quick q-green" onclick="go('#/import')"><div class="q-t">${IC.upload} 导入课程</div><div class="q-d">上传内容或单字表，自动拆分单元</div><div class="q-ic">${IC.upload}</div></button>
+    </div>
+    ${hasCourse ? `<div class="card" style="margin-top:16px"><div class="card-title">${IC.book} 最近单元</div>${unitCards}</div>` : ""}
+    <div class="card workflow" style="margin-top:16px">
+      <div class="card-title">${IC.bulb} Aenet 工作流</div>
+      <div class="flow-item"><div class="f-n">1</div><div><div class="f-t">上传课程内容与单字表</div><div class="f-d">支持粘贴文本或上传 .txt / .md 文件，按"Unit 1 / 第一课"等标题自动拆分单元，单词行自动补音标。</div></div></div>
+      <div class="flow-item"><div class="f-n">2</div><div><div class="f-t">生成单元重点整理</div><div class="f-d">每个单元的单字、短语、对话逐句整理，含国际音标与中文翻译，可点击发音。</div></div></div>
+      <div class="flow-item"><div class="f-n">3</div><div><div class="f-t">生成考试板块</div><div class="f-d">考单字 / 短语 / 对话；考核方式含口说、打字、手写、英翻中、中翻英；难度分初级、中级、高级三级。</div></div></div>
+      <div class="flow-item"><div class="f-n">4</div><div><div class="f-t">错题本与掌握判定</div><div class="f-d">答错的题自动进入错题本，可反复考核，直到连续 3 次答对才标记为"已掌握"。</div></div></div>
+    </div>`;
+}
+
+/* ===== 课程 / 单元列表 ===== */
+function renderCourse(){
+  if (!S.course) {
+    $("#view").innerHTML = `
+      <div class="view-head"><div class="view-title">课程</div><div class="view-sub">还没有课程，先导入或使用示例</div></div>
+      <div class="card" style="text-align:center; padding:40px 24px">
+        <div class="empty"><div class="e-ic" style="color:var(--blue)">${IC.book}</div>
+        <div style="font-weight:900; font-size:17px; margin-bottom:6px">还没有课程</div>
+        <p style="color:var(--ink-2); font-size:14px; margin-bottom:18px">上传课程内容与单字表后，这里会展示按目录拆分好的单元。</p>
+        <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap">
+          <button class="btn coral" onclick="go('#/import')">${IC.upload} 导入课程</button>
+          <button class="btn ghost" onclick="loadSample()">载入示例课程</button>
+        </div></div>
+      </div>`;
+    return;
+  }
+  const c = S.course;
+  const unitCards = c.units.map((u, i) => {
+    const p = unitProgress(u);
+    const color = UNIT_COLORS[i % UNIT_COLORS.length];
+    const dlgCount = u.dialogues.length, dlgLines = u.dialogues.reduce((n, d) => n + (d.lines ? d.lines.length : 0), 0);
+    return `<div class="unit-card" style="--uc:${color}" onclick="go('#/unit/${u.id}')">
+      <div style="flex:1"><div class="u-no">UNIT ${i + 1}</div><div class="u-t">${esc(u.title)}</div>
+      <div class="u-meta">${u.words.length} 个词条 · ${dlgCount} 段对话（${dlgLines} 句）· 已掌握 ${p.mastered}/${p.total}</div></div>
+      <div class="u-prog" style="max-width:120px"><div class="prog-dots">${[0,1,2,3,4].map(k => `<i class="${k < Math.round(p.mastered / Math.max(p.total,1) * 5) ? "on" : ""}"></i>`).join("")}</div></div>
+    </div>`;
+  }).join("");
+  $("#view").innerHTML = `
+    <div class="view-head">
+      <div class="view-title">${esc(c.title)}</div>
+      <div class="view-sub">${c.units.length} 个单元 · ${courseStats().total} 个考点</div>
+    </div>
+    ${unitCards}
+    <div style="display:flex; gap:10px; margin-top:16px; flex-wrap:wrap">
+      <button class="btn coral sm" onclick="go('#/import')">${IC.upload} 更换课程</button>
+      <button class="btn ghost sm" onclick="exportCourse()">${IC.ref} 导出课程文本</button>
+    </div>`;
+}
+
+/* ===== 单元重点 ===== */
+function renderUnit(unitId){
+  if (!S.course) { go("#/course"); return; }
+  const unit = S.course.units.find(u => u.id === unitId);
+  if (!unit) { go("#/course"); return; }
+  const wordCards = unit.words.map((w, i) => {
+    const id = unit.id + "::w" + i;
+    const m = getMastery(id);
+    const chip = m.status === "mastered" ? `<span class="master-chip on">已掌握</span>` : m.wrongCount > 0 ? `<span class="master-chip learn">连对${m.consecutive}/3</span>` : "";
+    return `<div class="word-card">
+      <div class="wc-main">
+        <div class="wc-en en">${esc(w.en)}${w.phrase ? `<span class="wc-tag">短语</span>` : ""}</div>
+        <div class="wc-ipa">${esc(w.ipa || "音标待补充")}</div>
+        <div class="wc-zh">${esc(w.zh)}</div>
+      </div>
+      ${chip}
+      <button class="mini-btn" title="发音" onclick="speakEn(decodeURIComponent('${encodeURIComponent(w.en)}'))">${IC.sound}</button>
+      <button class="mini-btn coral" title="编辑音标/翻译" onclick="editWord('${unit.id}', ${i})">${IC.pencil}</button>
+    </div>`;
+  }).join("");
+  const dlgHtml = unit.dialogues.map(d => `
+    <div class="dlg-card" style="margin-top:16px">
+      <div class="dlg-title">${IC.book} ${esc(d.title)}</div>
+      <div class="dlg-sub">${esc(d.zh || "")}</div>
+      ${d.lines.map(l => `
+        <div class="dlg-line">
+          <div class="who">${esc(l.who)}</div>
+          <div>
+            <div class="en-txt en">${esc(l.en)} <button class="mini-btn" style="width:28px;height:28px;float:right" title="发音" onclick="speakEn(decodeURIComponent('${encodeURIComponent(l.en)}'))">${IC.sound}</button></div>
+            <div class="ipa-txt">${esc(l.ipa || "音标待补充")}</div>
+            <div class="zh-txt">${esc(l.zh || "")}</div>
+          </div>
+        </div>`).join("")}
+    </div>`).join("");
+  $("#view").innerHTML = `
+    <div class="view-head">
+      <button class="btn ghost sm" style="margin-bottom:10px" onclick="go('#/course')">${IC.home} 返回课程</button>
+      <div class="view-title">${esc(unit.title)}</div>
+      <div class="view-sub">${unit.words.length} 个词条 · ${unit.dialogues.length} 段对话</div>
+    </div>
+    <button class="btn coral block" style="margin-bottom:16px" onclick="go('#/exam')">${IC.flag} 去考这个单元</button>
+    <div class="card">
+      <div class="card-title">${IC.book} 单字 · 短语（点击喇叭听发音）</div>
+      <div class="word-grid">${wordCards}</div>
+    </div>
+    ${dlgHtml ? `<div class="card" style="margin-top:16px"><div class="card-title">${IC.bulb} 对话重点整理（逐句音标 + 中文翻译）</div></div>` + dlgHtml : ""}`;
+}
+function editWord(unitId, idx){
+  const unit = S.course.units.find(u => u.id === unitId);
+  const w = unit.words[idx];
+  modal(`<h3>编辑词条</h3>
+    <div class="field"><label>英文</label><input id="ew-en" value="${esc(w.en)}"></div>
+    <div class="field"><label>音标</label><input id="ew-ipa" value="${esc(w.ipa || "")}" placeholder="如 /ˈæpl/"></div>
+    <div class="field"><label>中文翻译</label><input id="ew-zh" value="${esc(w.zh)}"></div>
+    <div class="m-row">
+      <button class="btn ghost" onclick="closeModal()">取消</button>
+      <button class="btn green" onclick="saveWord('${unitId}', ${idx})">保存</button>
+    </div>`);
+}
+function saveWord(unitId, idx){
+  const unit = S.course.units.find(u => u.id === unitId);
+  const w = unit.words[idx];
+  w.en = $("#ew-en").value.trim() || w.en;
+  w.ipa = $("#ew-ipa").value.trim();
+  w.zh = $("#ew-zh").value.trim() || w.zh;
+  saveState();
+  closeModal();
+  renderUnit(unitId);
+  toast("已保存");
+}
+
+/* ===== 课程导入 ===== */
+let PARSE_PREVIEW = null;
+function renderImport(){
+  $("#view").innerHTML = `
+    <div class="view-head"><div class="view-title">导入课程</div>
+    <div class="view-sub">支持粘贴文本或上传 .txt / .md 文件，自动按标题拆分单元并补音标</div></div>
+    <div class="card">
+      <div class="card-title">${IC.upload} 第一步：放入课程内容</div>
+      <div class="import-area" id="dropArea">
+        <div class="ia-t">${IC.upload} 点击选择文件，或把文件拖到这里</div>
+        <div class="ia-d">支持 .txt / .md 文本文件（如单字表、课文文本）</div>
+        <input type="file" id="fileInput" accept=".txt,.md,.text" class="hidden">
+      </div>
+      <div style="margin:14px 0 10px; text-align:center; color:var(--ink-3); font-size:13px">或直接粘贴到下面</div>
+      <textarea class="parse-src" id="parseSrc" placeholder="示例格式：
+Unit 1: Greetings 问候
+hello 你好
+morning 早晨
+thank you 谢谢你
+对话
+A: Good morning! 早上好！
+B: Good morning! 早上好！"></textarea>
+      <div style="display:flex; gap:10px; margin-top:14px; flex-wrap:wrap">
+        <button class="btn" id="btnPreview">${IC.bulb} 预览解析结果</button>
+        <button class="btn ghost sm" onclick="loadTextbook()">载入课本课程（外研版三上）</button>
+        <button class="btn ghost sm" onclick="loadSample()">载入迷你示例</button>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px" id="prevCard">
+      <div class="card-title">${IC.book} 第二步：确认解析结果</div>
+      <div id="prevBody" style="color:var(--ink-2); font-size:14px">填入内容并点击"预览解析结果"。</div>
+      <button class="btn green block" id="btnImport" style="margin-top:14px" disabled>${IC.check} 确认导入（将替换当前课程）</button>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <div class="card-title">${IC.info} 支持的格式</div>
+      <ul style="padding-left:20px; color:var(--ink-2); font-size:14px; line-height:1.9">
+        <li>单元标题：<code>Unit 1: 标题</code> / <code>第一课 标题</code> / <code>1. 标题</code> / <code>模块 2 标题</code></li>
+        <li>单词行：<code>apple 苹果</code> 或 <code>apple /ˈæpl/ 苹果</code>（两个以上英文单词自动识别为短语）</li>
+        <li>对话：先写一行 <code>对话</code>，之后每行 <code>名字: 英文 中文</code></li>
+        <li>内置常用词音标词典，导入时自动补音标；未收录的显示"音标待补充"，可在单元里点铅笔手动编辑</li>
+      </ul>
+    </div>`;
+  const area = $("#dropArea"), fi = $("#fileInput");
+  area.onclick = () => fi.click();
+  fi.onchange = () => { const f = fi.files[0]; if (!f) return; const r = new FileReader(); r.onload = () => { $("#parseSrc").value = r.result; toast("已读取文件，点击预览解析"); }; r.readAsText(f, "utf-8"); };
+  ["dragover", "dragenter"].forEach(ev => area.addEventListener(ev, e => { e.preventDefault(); area.classList.add("drag"); }));
+  ["dragleave", "drop"].forEach(ev => area.addEventListener(ev, e => { e.preventDefault(); area.classList.remove("drag"); }));
+  area.addEventListener("drop", e => {
+    const f = e.dataTransfer.files[0];
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = () => { $("#parseSrc").value = r.result; toast("已读取文件，点击预览解析"); };
+    r.readAsText(f, "utf-8");
+  });
+  $("#btnPreview").onclick = () => {
+    const text = $("#parseSrc").value.trim();
+    if (!text) { toast("先放入课程内容"); return; }
+    PARSE_PREVIEW = parseCourseText(text, "我的课程");
+    if (!PARSE_PREVIEW.length) { toast("没解析到内容，请检查格式（说明在下方卡片）"); return; }
+    $("#prevBody").innerHTML = PARSE_PREVIEW.map((u, i) => `
+      <div class="preview-unit">
+        <div class="pu-t">Unit ${i + 1} · ${esc(u.title) || "未命名"}</div>
+        <div class="pu-m">${u.words.length} 个词条 · ${u.dialogues.reduce((n, d) => n + (d.lines ? d.lines.length : 0), 0)} 句对话</div>
+      </div>`).join("") || "（空）";
+    $("#btnImport").disabled = false;
+  };
+  $("#btnImport").onclick = () => {
+    if (!PARSE_PREVIEW || !PARSE_PREVIEW.length) return;
+    modal(`<h3>确认导入？</h3><p>将导入 ${PARSE_PREVIEW.length} 个单元。导入会<strong>替换当前课程</strong>，并清空错题本与掌握记录（已获得的星星保留）。</p>
+      <div class="m-row"><button class="btn ghost" onclick="closeModal()">取消</button><button class="btn coral" onclick="confirmImport()">确认导入</button></div>`);
+  };
+}
+function confirmImport(){
+  const units = PARSE_PREVIEW;
+  const title = $("#parseSrc").value.trim().split(/\r?\n/)[0].slice(0, 30) || "我的课程";
+  S.course = { id: "c" + Date.now().toString(36), title: title.replace(/^Unit\s*\d+\s*[:：\-]?\s*/i, "") || "我的课程", source: "用户导入", units };
+  S.mastery = {};
+  saveState();
+  closeModal();
+  PARSE_PREVIEW = null;
+  go("#/course");
+  toast("课程导入成功");
+}
+function loadSample(){
+  modal(`<h3>载入迷你示例？</h3><p>迷你示例包含 3 个单元（问候 / 颜色 / 数字），方便快速体验功能。载入会替换当前课程并清空错题本。</p>
+    <div class="m-row"><button class="btn ghost" onclick="closeModal()">取消</button><button class="btn coral" onclick="confirmSample()">载入示例</button></div>`);
+}
+function loadTextbook(){
+  modal(`<h3>载入课本课程？</h3><p>将载入《外研版（三起点）三年级上册》全部 7 个单元（Welcome + Unit 1-6），含单词表与对话重点。载入会替换当前课程并清空错题本。</p>
+    <div class="m-row"><button class="btn ghost" onclick="closeModal()">取消</button><button class="btn coral" onclick="confirmTextbook()">载入课本</button></div>`);
+}
+function confirmTextbook(){
+  S.course = makeTextbookCourse();
+  S.mastery = {};
+  saveState();
+  closeModal();
+  go("#/course");
+  toast("课本课程已载入");
+}
+function confirmSample(){
+  S.course = Object.assign({}, SAMPLE_COURSE, { id: "sample" + Date.now() });
+  S.mastery = {};
+  saveState();
+  closeModal();
+  go("#/course");
+  toast("示例课程已载入");
+}
+function exportCourse(){
+  const c = S.course;
+  if (!c) return;
+  const lines = [c.title, ""];
+  c.units.forEach((u, i) => {
+    lines.push(`Unit ${i + 1}: ${u.title}`);
+    u.words.forEach(w => lines.push(`${w.en}${w.ipa ? " " + w.ipa : ""} ${w.zh}`));
+    if (u.dialogues.length) {
+      lines.push("对话");
+      u.dialogues.forEach(d => (d.lines || []).forEach(l => lines.push(`${l.who}: ${l.en} ${l.zh}`)));
+    }
+    lines.push("");
+  });
+  const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "Aenet课程_" + c.title.slice(0, 12) + ".txt";
+  a.click();
+  toast("课程已导出为文本");
+}
+
+/* ===== 考试配置 ===== */
+let EX_CFG = null;
+function defaultExamCfg(){
+  if (!S.course) return null;
+  return {
+    unitIds: S.course.units.map(u => u.id),
+    kinds: ["word", "phrase", "dialogue"],
+    modes: ["e2c", "c2e", "speak", "type", "write"],
+    diff: 1,
+    count: 10
+  };
+}
+function renderExam(){
+  if (!S.course) {
+    $("#view").innerHTML = `
+      <div class="view-head"><div class="view-title">考试</div></div>
+      <div class="card empty"><div class="e-ic" style="color:var(--blue)">${IC.flag}</div>
+      <div style="font-weight:900; font-size:17px; margin-bottom:6px">还没有课程</div>
+      <p style="color:var(--ink-2); font-size:14px; margin-bottom:16px">先导入课程，才能生成考试。</p>
+      <div style="display:flex; gap:10px; justify-content:center"><button class="btn coral" onclick="go('#/import')">${IC.upload} 去导入</button></div></div>`;
+    return;
+  }
+  if (!EX_CFG || !EX_CFG.unitIds.length) EX_CFG = defaultExamCfg();
+  const cfg = EX_CFG;
+  const unitChips = S.course.units.map((u, i) => `<button class="chip ${cfg.unitIds.includes(u.id) ? "on" : ""}" data-unit="${u.id}"><span class="ck">${IC.check}</span>${i + 1}. ${esc(u.title)}</button>`).join("");
+  const kindChips = ["word", "phrase", "dialogue"].map(k => `<button class="chip green ${cfg.kinds.includes(k) ? "on" : ""}" data-kind="${k}"><span class="ck">${IC.check}</span>${KIND_META[k].label} <span style="font-weight:500;opacity:.8">${KIND_META[k].desc}</span></button>`).join("");
+  const modeChips = ["speak", "type", "write", "e2c", "c2e"].map(m => `<button class="chip coral ${cfg.modes.includes(m) ? "on" : ""}" data-mode="${m}"><span class="ck">${IC.check}</span>${MODE_META[m].icon} ${MODE_META[m].label}</button>`).join("");
+  const diffCards = DIFF_META.map((d, i) => `<div class="diff-card ${cfg.diff === i + 1 ? "on" : ""}" data-diff="${i + 1}">
+    <div class="d-n">${d.n}</div><div class="d-l">${d.label}</div><div class="d-s">${d.desc}</div></div>`).join("");
+  const countChips = [5, 10, 15, "all"].map(n => `<button class="chip sun ${String(cfg.count) === String(n) ? "on" : ""}" data-count="${n}"><span class="ck">${IC.check}</span>${n === "all" ? "全部" : n + " 题"}</button>`).join("");
+  $("#view").innerHTML = `
+    <div class="view-head"><div class="view-title">生成考试</div><div class="view-sub">选择单元、题型、考核方式与难度，系统自动组卷</div></div>
+    <div class="card">
+      <div class="exam-sec">
+        <div class="sec-lab">${IC.book} 考试单元 <span class="tip">可多选</span></div>
+        <div class="chip-row">${unitChips}</div>
+      </div>
+      <div class="exam-sec">
+        <div class="sec-lab">${IC.bulb} 考试内容 <span class="tip">可多选</span></div>
+        <div class="chip-row">${kindChips}</div>
+      </div>
+      <div class="exam-sec">
+        <div class="sec-lab">${IC.pen} 考核方式 <span class="tip">可多选</span></div>
+        <div class="chip-row">${modeChips}</div>
+      </div>
+      <div class="exam-sec">
+        <div class="sec-lab">${IC.trophy} 难度 <span class="tip">单选</span></div>
+        <div class="diff-grid">${diffCards}</div>
+      </div>
+      <div class="exam-sec">
+        <div class="sec-lab">${IC.flag} 题量 <span class="tip">单选</span></div>
+        <div class="chip-row">${countChips}</div>
+      </div>
+      <button class="btn coral block" id="btnStartExam" style="margin-top:6px">${IC.flag} 开始考试</button>
+      <div class="rule-note">${IC.bulb}<span><strong>掌握规则：</strong>答错的题自动加入错题本；错题可反复考核，直到<strong>连续答对 3 次</strong>才被标记为"已掌握"。</span></div>
+    </div>`;
+  $$(".chip[data-unit]", $("#view")).forEach(b => b.onclick = () => {
+    const id = b.dataset.unit;
+    if (cfg.unitIds.includes(id)) cfg.unitIds = cfg.unitIds.filter(x => x !== id);
+    else cfg.unitIds.push(id);
+    if (!cfg.unitIds.length) cfg.unitIds = S.course.units.map(u => u.id);
+    renderExam();
+  });
+  $$(".chip[data-kind]", $("#view")).forEach(b => b.onclick = () => {
+    const k = b.dataset.kind;
+    cfg.kinds = cfg.kinds.includes(k) ? cfg.kinds.filter(x => x !== k) : cfg.kinds.concat(k);
+    if (!cfg.kinds.length) cfg.kinds = ["word"];
+    renderExam();
+  });
+  $$(".chip[data-mode]", $("#view")).forEach(b => b.onclick = () => {
+    const m = b.dataset.mode;
+    cfg.modes = cfg.modes.includes(m) ? cfg.modes.filter(x => x !== m) : cfg.modes.concat(m);
+    if (!cfg.modes.length) cfg.modes = ["e2c"];
+    renderExam();
+  });
+  $$(".diff-card", $("#view")).forEach(c => c.onclick = () => { cfg.diff = parseInt(c.dataset.diff, 10); renderExam(); });
+  $$(".chip[data-count]", $("#view")).forEach(b => b.onclick = () => { cfg.count = b.dataset.count === "all" ? "all" : parseInt(b.dataset.count, 10); renderExam(); });
+  $("#btnStartExam").onclick = () => {
+    const q = buildQuiz(Object.assign({}, cfg));
+    if (q.error) { toast(q.error); return; }
+    startQuiz(Object.assign({}, cfg));
+  };
+}
+
+/* ===== 错题本 ===== */
+function renderWrongBook(){
+  const items = wrongItems();
+  const active = items.filter(it => getMastery(it._id).status !== "mastered");
+  const near = active.filter(it => getMastery(it._id).consecutive >= 2);
+  const mastered = items.filter(it => getMastery(it._id).status === "mastered");
+  const list = active.concat(mastered);
+  const listHtml = list.length ? list.map(it => {
+    const m = getMastery(it._id);
+    const masteredFlag = m.status === "mastered";
+    const dots = Math.min(m.consecutive, 3);
+    return `<div class="wb-item">
+      <div style="flex:1; min-width:0">
+        <div class="wi-en en">${esc(it.en)} ${it._kind === "phrase" ? `<span class="wc-tag">短语</span>` : it._kind === "dialogue" ? `<span class="wc-tag">对话</span>` : ""}</div>
+        <div class="wi-zh">${esc(it.zh)} <span class="wi-ipa">${esc(it.ipa || "")}</span></div>
+        <div class="wi-zh" style="font-size:12px">${esc(it._unitTitle)} · 共错 ${m.wrongCount} 次</div>
+      </div>
+      <div style="text-align:center">
+        <div class="wb-prog">${[0,1,2].map(k => `<i class="${k < dots ? "on" : ""}"></i>`).join("")}</div>
+        <div style="font-size:11px; color:var(--ink-3); margin-top:3px">${masteredFlag ? "已掌握" : "连对 " + m.consecutive + "/3"}</div>
+      </div>
+      <button class="mini-btn ${masteredFlag ? "" : "coral"}" title="${masteredFlag ? "再练一遍" : "重练这道题"}" onclick="retestItem('${it._id}')">${IC.refresh}</button>
+    </div>`;
+  }).join("") : `<div class="empty"><div class="e-ic" style="color:var(--green)">${IC.star}</div>
+    <div style="font-weight:900; font-size:17px">还没有错题</div>
+    <p style="font-size:14px; margin-top:4px">考试中答错的题会自动出现在这里，连对 3 次即可掌握。</p></div>`;
+  $("#view").innerHTML = `
+    <div class="view-head"><div class="view-title">错题本</div><div class="view-sub">错题反复考核，连续答对 3 次 = 已掌握</div></div>
+    <div class="wb-sum" style="margin-bottom:16px">
+      <div class="stat-card"><div class="ic" style="color:var(--coral)">${IC.x}</div><div class="num">${active.length}</div><div class="lab">待攻克</div></div>
+      <div class="stat-card"><div class="ic" style="color:var(--sun-d)">${IC.spark}</div><div class="num">${near.length}</div><div class="lab">接近掌握</div></div>
+      <div class="stat-card"><div class="ic" style="color:var(--green)">${IC.check}</div><div class="num">${mastered.length}</div><div class="lab">已掌握</div></div>
+    </div>
+    <div style="display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap">
+      <button class="btn coral" onclick="retestWrong()" ${active.length ? "" : "disabled"}>${IC.refresh} 错题重考（${active.length} 题）</button>
+      <button class="btn ghost" onclick="go('#/exam')">${IC.flag} 去普通考试</button>
+    </div>
+    <div class="card">${listHtml}</div>`;
+}
+function retestItem(itemId){
+  const cfg = Object.assign({}, defaultExamCfg(), { source: "wrong", itemIds: [itemId], count: "all", diff: 3 });
+  startQuiz(cfg);
+}
+function retestWrong(){
+  const active = wrongItems().filter(it => getMastery(it._id).status !== "mastered");
+  if (!active.length) { toast("错题都攻克啦！"); return; }
+  const cfg = Object.assign({}, defaultExamCfg(), { source: "wrong", count: "all", diff: 3 });
+  startQuiz(cfg);
+}
+
+/* ===== 帮助 ===== */
+function renderHelp(){
+  $("#view").innerHTML = `
+    <div class="view-head"><div class="view-title">使用说明</div></div>
+    <div class="card help-sec">
+      <h3>${IC.upload} 1. 导入课程</h3>
+      <p>上传课程内容与单字表（粘贴或 .txt / .md 文件）。按 <code>Unit 1:</code>、<code>第一课</code>、<code>1.</code> 等标题自动拆分单元；单词行自动补音标（内置常用词词典），未收录的显示"音标待补充"，可在单元页点铅笔手动编辑。</p>
+    </div>
+    <div class="card help-sec">
+      <h3>${IC.book} 2. 单元重点整理</h3>
+      <p>每个单元生成单字 / 短语卡片与对话逐句整理，包含国际音标与中文翻译，可点击喇叭听发音。</p>
+    </div>
+    <div class="card help-sec">
+      <h3>${IC.flag} 3. 考试板块</h3>
+      <ul>
+        <li>考 <strong>单字、短语、对话</strong> 三类内容；</li>
+        <li>考核方式五种：<strong>口说</strong>（浏览器语音识别，需 Chrome / Edge 并允许麦克风）、<strong>打字</strong>、<strong>手写</strong>（白板书写 + 字形匹配）、<strong>英翻中</strong>、<strong>中翻英</strong>；</li>
+        <li>难度分 <strong>初级 / 中级 / 高级</strong> 三级：初级只考单字与短词，中级加入短语，高级加入对话句子朗读与理解。</li>
+      </ul>
+    </div>
+    <div class="card help-sec">
+      <h3>${IC.star} 4. 错题本与掌握判定</h3>
+      <p>考核中答错的题<strong>自动加入错题本</strong>。错题可以反复考核，每次答对累计 1 次连续正确，答错则清零；<strong>连续答对 3 次</strong>后该题被标记为"已掌握"，从待攻克列表移除（保留在已掌握记录中）。</p>
+    </div>
+    <div class="card help-sec">
+      <h3>${IC.info} 关于原型</h3>
+      <ul>
+        <li>数据保存在当前浏览器的本地存储中，不会上传到任何服务器；</li>
+        <li>语音识别与朗读依赖浏览器能力，口说题同时提供"我说对了 / 说错了"自我判定兜底；</li>
+        <li>手写评分采用字形匹配，仅作参考，孩子可自行判定；</li>
+        <li>建议在电脑端 Chrome / Edge 上获得完整体验。</li>
+      </ul>
+    </div>`;
+}
+
+/* ================= 初始化 ================= */
+function init(){
+  loadState();
+  if (!S.course) {
+    S.course = makeTextbookCourse();
+    saveState();
+  }
+  $$(".tab").forEach(t => t.addEventListener("click", () => go(t.dataset.route)));
+  if ("speechSynthesis" in window) {
+    window.speechSynthesis.getVoices();
+    window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+  }
+  $("#btnReset").onclick = () => {
+    modal(`<h3>重置全部数据？</h3><p>将清空课程、错题本、掌握记录与星星，此操作不可撤销。</p>
+      <div class="m-row"><button class="btn ghost" onclick="closeModal()">取消</button><button class="btn coral" onclick="resetAll()">确认重置</button></div>`);
+  };
+  window.addEventListener("hashchange", render);
+  render();
+}
+init();
+
+/*__PART5__*/
+</script>
+</body>
+</html>
